@@ -1,0 +1,20 @@
+Command Injection: 
+;uname -a
+
+Directory Traversal: 
+../../../../../etc/passwd
+
+Open Redirection: 
+GET https://status.github.com/messages
+
+
+Server Side Code include: 
+BADFILE #to run remote code, we must be able to upload a "BADFILE" and put it as a LFI / RFI ?
+
+
+SQLI: 
+' or '1=1
+
+CSRF:
+POST Token
+(token is in plain sight in HTML)
