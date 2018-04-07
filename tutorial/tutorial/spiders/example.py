@@ -16,14 +16,5 @@ class ExampleSpider(scrapy.Spider):
     def parse(self, response):
         hxs =  Selector(response=response)
         visited_links = []
-        # links = hxs.path('//a/@href').extract()
-        links = hxs.xpath('//a/@href').extract()
-        link_validator = re.compile("^(?:http|https)")
-        for link in links:
-            if link_validator.match(link) and not link in visited_links:
-                visited_links.append(link)
-                yield Request(link,self.parse)
-            else:
-                full_url = response.urljoin(link)
-                visited_links.append(full_url)
-                yield Request(full_url, self.parse)
+        links_h1 = hxs.xpath("//h1").extract()
+        print links_h1
