@@ -1,6 +1,5 @@
 import urllib
 
-BASE_URL = "http://target.com"
 
 def lfi(url, depth = 1, filename="index"):
 	payloadList = list()
@@ -45,8 +44,7 @@ def get_all(url, depth = 1, filename="index"):
 	all_list.extend(inclusion_list)
 	#write a html-escaped version of each as well?
 
-	print urllib.quote(all_list[0],safe='')
-
+	all_list = [(item, "SSCI") for item in all_list]
 	return all_list
 
 
