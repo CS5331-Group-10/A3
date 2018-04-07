@@ -18,12 +18,11 @@ def injectPayload(url, paramname, method, payload):
 	elif method == "POST":
 		print("POST")
 
-	print checkSuccess(html)
-
+	result = checkSuccess(html)
+	if result is not None:
+		print result, payload
 def checkSuccess(html):
 #server side injection:
-
-	print html
 	#included index.php
 	indexPHP = requests.get(BASE_URL + "index.php")
 	if indexPHP.text in html:
@@ -32,10 +31,13 @@ def checkSuccess(html):
 	if "GNU/Linux" in html:
 		return "SSCI"
 
+	return None;
 	
 
 if __name__ == "__main__":
 	
-	url = "/serverside/lfi1.php"
-	payload = "../../index.php"
-	injectPayload(url, "page", "GET", "../../eval")
+	url = "/serverside/eval2.php"
+	payloads = ssci.get_all(url)
+	
+	for payload in payloads:
+		injectPayload(url, "page", "GET", payload)
