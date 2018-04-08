@@ -26,13 +26,20 @@ class ExampleSpider(CrawlSpider):
 
     rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
 
+
     def parse_url(self, response):
         selector = Selector(response)
         item = MyItem()
+        value = ''
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
 
-        soup = BeautifulSoup(response.text, 'html.parser').findAll('input')
+        # soup = BeautifulSoup(response.text, 'html.parser').findAll('input')
+    
+        if(response.css('input')):
+            value = response.css('input')[0].extract()
+        else:
+            value = ''
 
         yield {
             "url": response.url,
@@ -42,8 +49,5 @@ class ExampleSpider(CrawlSpider):
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
             "meta": response.meta,
-            "input_post_params": response.css('input')[0].extract()
-
-
+            "input_post_params": value
         }
-        # return item
