@@ -4,6 +4,7 @@ from scrapy.item import Item, Field
 from urlparse import urlparse
 from bs4 import BeautifulSoup
 import requests
+from scrapy.selector import Selector
 
 class MyItem(Item):
     originalResponse = Field()
@@ -15,6 +16,7 @@ class MyItem(Item):
     cookies = Field()
     meta = Field()
     raw_html = Field()
+    input_post_params = Field()
 
 
 
@@ -25,6 +27,7 @@ class ExampleSpider(CrawlSpider):
     rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
 
     def parse_url(self, response):
+        selector = Selector(response)
         item = MyItem()
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
@@ -39,10 +42,8 @@ class ExampleSpider(CrawlSpider):
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
             "meta": response.meta,
-            "raw_html": response.text
+            "input_post_params": response.css('input')[0].extract()
 
-
-            # session.cookies.get_dict()
 
         }
         # return item
