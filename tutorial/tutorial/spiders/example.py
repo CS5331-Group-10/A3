@@ -1,20 +1,48 @@
-# -*- coding: utf-8 -*-
-import scrapy
-import re
-from scrapy.spiders import BaseSpider
-from scrapy.selector import Selector
-from tutorial.items import TutorialItem
-from scrapy.http import Request
+from scrapy.linkextractors import LinkExtractor
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.item import Item, Field
+from urlparse import urlparse
+from bs4 import BeautifulSoup
+import requests
+
+class MyItem(Item):
+    originalResponse = Field()
+    url= Field()
+    endpoint = Field()
+    query = Field()
+    headers = Field()
+    resquest = Field()
+    cookies = Field()
+    meta = Field()
+    raw_html = Field()
 
 
 
-class ExampleSpider(scrapy.Spider):
+class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    allowed_domains = ['target.com/']
-    start_urls = ['http://target.com/']
+    start_urls = ['http://target.com']
 
-    def parse(self, response):
-        hxs =  Selector(response=response)
-        visited_links = []
-        links_h1 = hxs.xpath("//h1").extract()
-        print links_h1
+    rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
+
+    def parse_url(self, response):
+        item = MyItem()
+        item['originalResponse'] = response.url
+        parsed = urlparse(response.url)
+
+        soup = BeautifulSoup(response.text, 'html.parser').findAll('input')
+
+        yield {
+            "url": response.url,
+            "query": parsed.query,
+            "endpoint": parsed.path,
+            "headers": response.headers,
+            "cookies":response.headers.getlist('Set-Cookie'),
+            "request": response.request,
+            "meta": response.meta,
+            "raw_html": response.text
+
+
+            # session.cookies.get_dict()
+
+        }
+        # return item
