@@ -1,0 +1,15 @@
+[
+{"url": "target.com", "query": "", "endpoint": "/commandinjection/commandinjection.php", "originalResponse": "http://target.com/commandinjection/commandinjection.php"},
+{"url": "target.com", "query": "", "endpoint": "/directorytraversal/cats.html", "originalResponse": "http://target.com/directorytraversal/cats.html"},
+{"url": "target.com", "query": "", "endpoint": "/openredirect/openredirect.html", "originalResponse": "http://target.com/openredirect/openredirect.html"},
+{"url": "target.com", "query": "", "endpoint": "/sqli/sqli.php", "originalResponse": "http://target.com/sqli/sqli.php"},
+{"url": "target.com", "query": "", "endpoint": "/serverside/serverside.php", "originalResponse": "http://target.com/serverside/serverside.php"},
+{"url": "target.com", "query": "", "endpoint": "/csrf/csrf.php", "originalResponse": "http://target.com/csrf/csrf.php"},
+{"url": "target.com", "query": "ascii=stretch.ascii", "endpoint": "/directorytraversal/directorytraversal.php", "originalResponse": "http://target.com/directorytraversal/directorytraversal.php?ascii=stretch.ascii"},
+{"url": "target.com", "query": "page=oranges", "endpoint": "/serverside/serverside.php", "originalResponse": "http://target.com/serverside/serverside.php?page=oranges"},
+{"url": "target.com", "query": "page=bananas", "endpoint": "/serverside/serverside.php", "originalResponse": "http://target.com/serverside/serverside.php?page=bananas"},
+{"url": "target.com", "query": "page=apples", "endpoint": "/serverside/serverside.php", "originalResponse": "http://target.com/serverside/serverside.php?page=apples"},
+{"url": "target.com", "query": "ascii=fence.ascii", "endpoint": "/directorytraversal/directorytraversal.php", "originalResponse": "http://target.com/directorytraversal/directorytraversal.php?ascii=fence.ascii"},
+{"url": "target.com", "query": "", "endpoint": "/openredirect/success.html", "originalResponse": "http://target.com/openredirect/success.html"},
+{"url": "target.com", "query": "ascii=angry.ascii", "endpoint": "/directorytraversal/directorytraversal.php", "originalResponse": "http://target.com/directorytraversal/directorytraversal.php?ascii=angry.ascii"}
+]

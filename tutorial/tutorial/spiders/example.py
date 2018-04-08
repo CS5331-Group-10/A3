@@ -1,20 +1,26 @@
-# -*- coding: utf-8 -*-
-import scrapy
-import re
-from scrapy.spiders import BaseSpider
-from scrapy.selector import Selector
-from tutorial.items import TutorialItem
-from scrapy.http import Request
+from scrapy.linkextractors import LinkExtractor
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.item import Item, Field
+from urlparse import urlparse
 
 
+class MyItem(Item):
+    originalResponse = Field()
+    url= Field()
+    endpoint = Field()
+    query = Field()
 
-class ExampleSpider(scrapy.Spider):
+class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    allowed_domains = ['target.com/']
-    start_urls = ['http://target.com/']
+    start_urls = ['http://target.com']
 
-    def parse(self, response):
-        hxs =  Selector(response=response)
-        visited_links = []
-        links_h1 = hxs.xpath("//h1").extract()
-        print links_h1
+    rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
+
+    def parse_url(self, response):
+        item = MyItem()
+        item['originalResponse'] = response.url
+        parsed = urlparse(response.url)
+        item['url'] = parsed.netloc
+        item['endpoint'] = parsed.path
+        item['query'] = parsed.query
+        return item
