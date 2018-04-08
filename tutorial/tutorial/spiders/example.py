@@ -10,7 +10,7 @@ class MyItem(Item):
     url= Field()
     endpoint = Field()
     query = Field()
-    response = Field()
+    headers = Field()
     resquest = Field()
     cookies = Field()
     meta = Field()
@@ -35,7 +35,7 @@ class ExampleSpider(CrawlSpider):
             "url": response.url,
             "query": parsed.query,
             "endpoint": parsed.path,
-            "response": response.headers,
+            "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
             "meta": response.meta,
