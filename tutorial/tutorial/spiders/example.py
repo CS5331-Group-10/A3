@@ -2,6 +2,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.item import Item, Field
 from urlparse import urlparse
+from bs4 import BeautifulSoup
 
 
 class MyItem(Item):
@@ -20,7 +21,11 @@ class ExampleSpider(CrawlSpider):
         item = MyItem()
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
-        item['url'] = parsed.netloc
-        item['endpoint'] = parsed.path
-        item['query'] = parsed.query
-        return item
+
+        soup = BeautifulSoup(response.text, 'lxml')
+        yield {
+            "url": response.url,
+            "query": parsed.query,
+            "endpoint": parsed.path
+        }
+        # return item
