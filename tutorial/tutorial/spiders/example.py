@@ -17,6 +17,10 @@ class MyItem(Item):
     meta = Field()
     raw_html = Field()
     input_post_params = Field()
+    html_url = Field()
+    get_post = Field()
+    action_url = Field()
+    form_values = Field()
 
 
 
@@ -33,13 +37,39 @@ class ExampleSpider(CrawlSpider):
         value = ''
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
-
+        if 'html' in response.url:
+            yield{
+                html_url : response.url
+            }
         # soup = BeautifulSoup(response.text, 'html.parser').findAll('input')
-    
-        if(response.css('input')):
-            value = response.css('input')[0].extract()
+
+        # if(response.css('input')):
+        #     value = response.css('form')[0].extract()
+        #
+        # else:
+        #     value = ''
+
+        form_values = {}
+        if(response.css('form')):
+            value = response.css('form')[0].extract()
+            form_values['form'] = value
         else:
             value = ''
+
+        ### See if there is a GET request ###
+        get_post_value = []
+        request = response.request
+        query = parsed.query
+        if (query or 'GET' in value):
+            get_post_value.append('GET')
+            if ('POST' in value):
+                get_post_value.append('POST')
+            else:
+                pass
+        elif ('POST' in value):
+            get_post_value.append('POST')
+        else:
+            pass
 
         yield {
             "url": response.url,
@@ -48,6 +78,8 @@ class ExampleSpider(CrawlSpider):
             "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
+            "get_post": get_post_value,
             "meta": response.meta,
-            "input_post_params": value
+            "input_post_params": value,
+            "form_values": form_values
         }
