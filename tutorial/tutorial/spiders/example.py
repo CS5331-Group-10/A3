@@ -5,6 +5,7 @@ from urlparse import urlparse
 from bs4 import BeautifulSoup
 import requests
 from scrapy.selector import Selector
+import re
 
 class MyItem(Item):
     originalResponse = Field()
@@ -20,7 +21,7 @@ class MyItem(Item):
     html_url = Field()
     get_post = Field()
     action_url = Field()
-    form_values = Field()
+    forms = Field()
 
 
 
@@ -37,10 +38,10 @@ class ExampleSpider(CrawlSpider):
         value = ''
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
-        if 'html' in response.url:
-            yield{
-                html_url : response.url
-            }
+        # if 'html' in response.url:
+        #     yield{
+        #         html_url : response.url
+        #     }
         # soup = BeautifulSoup(response.text, 'html.parser').findAll('input')
 
         # if(response.css('input')):
@@ -51,8 +52,12 @@ class ExampleSpider(CrawlSpider):
 
         form_values = {}
         if(response.css('form')):
+            # print response.css('form')
             value = response.css('form')[0].extract()
             form_values['form'] = value
+            form_values['action'] = response.xpath('//form//@action').extract()
+            form_values['method'] = response.xpath('//form//@method').extract()
+            form_values['inputs'] = {'name': response.xpath('//form/input/@name').extract(), 'value': response.xpath('//form/input/@value').extract()}
         else:
             value = ''
 
@@ -72,14 +77,15 @@ class ExampleSpider(CrawlSpider):
             pass
 
         yield {
+            "endpoint": parsed.path,
+            "forms": form_values,
             "url": response.url,
             "query": parsed.query,
-            "endpoint": parsed.path,
             "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
             "get_post": get_post_value,
             "meta": response.meta,
-            "input_post_params": value,
-            "form_values": form_values
+            "input_post_params": value
+
         }
