@@ -50,16 +50,7 @@ class ExampleSpider(CrawlSpider):
         # else:
         #     value = ''
 
-        form_values = {}
-        if(response.css('form')):
-            # print response.css('form')
-            value = response.css('form')[0].extract()
-            form_values['form'] = value
-            form_values['action'] = response.xpath('//form//@action').extract()
-            form_values['method'] = response.xpath('//form//@method').extract()
-            form_values['inputs'] = {'name': response.xpath('//form/input/@name').extract(), 'value': response.xpath('//form/input/@value').extract()}
-        else:
-            value = ''
+
 
         ### See if there is a GET request ###
         get_post_value = []
@@ -75,6 +66,27 @@ class ExampleSpider(CrawlSpider):
             get_post_value.append('POST')
         else:
             pass
+
+        methods = []
+        methods.append(response.xpath('//form//@method').extract())
+        if (query and 'GET' not in methods):
+            methods.append('GET')
+
+
+        else:
+            pass
+
+        form_values = {}
+        if(response.css('form')):
+            # print response.css('form')
+            value = response.css('form')[0].extract()
+            form_values['form'] = value
+            form_values['action'] = response.xpath('//form//@action').extract()
+            form_values['form_method'] = response.xpath('//form//@method').extract()
+            form_values['method'] = methods
+            form_values['inputs'] = {'name': response.xpath('//form/input/@name').extract(), 'value': response.xpath('//form/input/@value').extract()}
+        else:
+            value = ''
 
         yield {
             "endpoint": parsed.path,
