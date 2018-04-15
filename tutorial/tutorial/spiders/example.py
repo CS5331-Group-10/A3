@@ -7,6 +7,8 @@ import requests
 from scrapy.selector import Selector
 import re
 
+import os
+
 class MyItem(Item):
     originalResponse = Field()
     url= Field()
@@ -29,6 +31,8 @@ class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
     start_urls = ['http://target.com']
 
+    # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
+
     rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
 
 
@@ -38,6 +42,7 @@ class ExampleSpider(CrawlSpider):
         value = ''
         item['originalResponse'] = response.url
         parsed = urlparse(response.url)
+
         # if 'html' in response.url:
         #     yield{
         #         html_url : response.url
@@ -67,8 +72,8 @@ class ExampleSpider(CrawlSpider):
         else:
             pass
 
-        methods = []
-        methods.append(response.xpath('//form//@method').extract())
+        methods = response.xpath('//form//@method').extract()
+
         if (query and 'GET' not in methods):
             methods.append('GET')
 
@@ -76,27 +81,62 @@ class ExampleSpider(CrawlSpider):
         else:
             pass
 
-        form_values = {}
+
+        # if(response.css('form')):
+        #     # for i in len(response.css('form')):
+        #     # for i in
+        #     # print response.css('form')
+        #     value = response.css('form')[0].extract()
+        #     form_values['form'] = value
+        #     form_values['action'] = response.xpath('//form//@action').extract()
+        #     form_values['form_method'] = response.xpath('//form//@method').extract()
+        #     form_values['method'] = methods
+        #     form_values['inputs'] = {'name': response.xpath('//form/input/@name').extract(), 'value': response.xpath('//form/input/@value').extract()}
+        #     forms.append(form_values)
+        # else:
+        #     value = ''
+
+        forms = []
         if(response.css('form')):
-            # print response.css('form')
-            value = response.css('form')[0].extract()
-            form_values['form'] = value
-            form_values['action'] = response.xpath('//form//@action').extract()
-            form_values['form_method'] = response.xpath('//form//@method').extract()
-            form_values['method'] = methods
-            form_values['inputs'] = {'name': response.xpath('//form/input/@name').extract(), 'value': response.xpath('//form/input/@value').extract()}
+            for i in range(len(response.css('form').extract())):
+                form_values = {}
+
+
+                value = response.css('form')[i].extract()
+                action = response.xpath('//form//@action')[i].extract() if response.xpath('//form//@action') else ''
+                method = response.xpath('//form//@method')[i].extract() if response.xpath('//form//@method') else ''
+
+
+                inputs={}
+                for j in range(len(response.xpath('//form/input/@name').extract())):
+
+
+                    inputs_name = response.xpath('//form/input/@name')[j].extract() if response.xpath('//form/input/@name') else ''
+                    inputs_value = response.xpath('//form/input/@value')[j].extract() if response.xpath('//form/input/@value') else ''
+                    inputs[inputs_name] = inputs_value
+
+
+
+
+                form_values['form'] = value
+                form_values['action'] = action
+                form_values['form_method'] = method
+                form_values['overall_method'] = methods
+                form_values['inputs'] = inputs
+                # form_values['inputs'] = {'name': inputs_name if inputs_name else '', 'value': inputs_value if inputs_value else ''}
+                forms.append(form_values)
         else:
             value = ''
 
         yield {
             "endpoint": parsed.path,
-            "forms": form_values,
+            "forms": forms,
             "url": response.url,
             "query": parsed.query,
             "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
-            "get_post": get_post_value,
+            "get_post": methods,
             "meta": response.meta,
             "input_post_params": value
 
