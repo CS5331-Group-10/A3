@@ -46,7 +46,7 @@ def checkSuccess(html, attackType, content, v=False):
 		print html
 
 	if attackType == shell_command:
-		match = re.findall(r'<pre>.+', html)
+		match = re.findall(r'GNU/Linux', html)
 		if len(match) == 0:
 			return None
 		return match
