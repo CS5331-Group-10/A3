@@ -82,7 +82,7 @@ if __name__ == "__main__":
 		injectPayload(url, "page", "GET", payload)
 	'''
 	#test for open redirect
-	url = "/openredirect/openredirect.php"
-	orPayload = oRedirect.get_all()
-	for payload in orPayload:
-		injectPayload(url, "redirect", "GET", payload)
+	# url = "/openredirect/openredirect.php"
+	# orPayload = oRedirect.get_all()
+	# for payload in orPayload:
+	# 	injectPayload(url, "redirect", "GET", payload)
