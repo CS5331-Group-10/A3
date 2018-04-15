@@ -2,7 +2,6 @@ import re
 import argparse
 import sys
 import requests
-from http.cookies import SimpleCookie
 import json
 
 """
@@ -122,10 +121,10 @@ def codecollors(code):
 
 class request(object):
     def query(self, url, cookie=None):
-        if cookie:
-            rawdata = "Cookie: " + cookie
-            cookie = SimpleCookie()
-            cookie.load(rawdata)
+        # if cookie:
+        #     rawdata = "Cookie: " + cookie
+        #     cookie = SimpleCookie()
+        #     cookie.load(rawdata)
 
         req = requests.get(url, cookies=cookie, allow_redirects=False)
         self.raw = req.text
