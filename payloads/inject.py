@@ -39,6 +39,9 @@ def checkSuccess(html, attackType, content, v=False):
 	if v == True:
 		print html
 
+	# if asstackType == shell_command:
+	# 	match = 
+
 	if attackType == sql_injection:
 		match = re.findall(r'<p>.+', html)
 		if len(match) ==0 :
