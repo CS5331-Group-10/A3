@@ -2,32 +2,27 @@
   {
     "cookies": [],
     "endpoint": "/commandinjection/commandinjection.php",
-    "get_post": [],
+    "get_post": [
+      "POST"
+    ],
     "url": "http://target.com/commandinjection/commandinjection.php",
     "input_post_params": "<form id=\"rce\" method=\"POST\">\n    Hostname: <input type=\"text\" name=\"host\" value=\"google.com\">\n    <input type=\"submit\">\n</form>",
     "request": "<Request GET http://target.com/commandinjection/commandinjection.php>",
-    "forms": {
-      "action": [],
-      "inputs": {
-        "name": [
-          "host"
-        ],
-        "value": [
-          "google.com"
-        ]
-      },
-      "form_method": [
-        "POST"
-      ],
-      "form": "<form id=\"rce\" method=\"POST\">\n    Hostname: <input type=\"text\" name=\"host\" value=\"google.com\">\n    <input type=\"submit\">\n</form>",
-      "method": [
-        [
+    "forms": [
+      {
+        "action": "",
+        "inputs": {
+          "host": "google.com"
+        },
+        "form_method": "POST",
+        "form": "<form id=\"rce\" method=\"POST\">\n    Hostname: <input type=\"text\" name=\"host\" value=\"google.com\">\n    <input type=\"submit\">\n</form>",
+        "method": [
           "POST"
         ]
-      ]
-    },
+      }
+    ],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -37,7 +32,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 1,
-      "download_latency": 0.018780946731567383,
+      "download_latency": 0.014917135238647461,
       "download_slot": "target.com"
     },
     "query": ""
@@ -49,14 +44,14 @@
     "url": "http://target.com/directorytraversal/cats.html",
     "input_post_params": "",
     "request": "<Request GET http://target.com/directorytraversal/cats.html>",
-    "forms": {},
+    "forms": [],
     "headers": {
       "Accept-Ranges": "bytes",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Last-Modified": "Wed, 04 Apr 2018 16:14:56 GMT",
       "Etag": "\"19c-569081fb813be-gzip\"",
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Content-Type": "text/html"
     },
     "meta": {
@@ -64,7 +59,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 1,
-      "download_latency": 0.02515387535095215,
+      "download_latency": 0.021947145462036133,
       "download_slot": "target.com"
     },
     "query": ""
@@ -76,9 +71,9 @@
     "url": "http://target.com/serverside/serverside.php",
     "input_post_params": "",
     "request": "<Request GET http://target.com/serverside/serverside.php>",
-    "forms": {},
+    "forms": [],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -88,7 +83,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 1,
-      "download_latency": 0.029739856719970703,
+      "download_latency": 0.02521800994873047,
       "download_slot": "target.com"
     },
     "query": ""
@@ -100,14 +95,14 @@
     "url": "http://target.com/openredirect/openredirect.html",
     "input_post_params": "",
     "request": "<Request GET http://target.com/openredirect/openredirect.html>",
-    "forms": {},
+    "forms": [],
     "headers": {
       "Accept-Ranges": "bytes",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Last-Modified": "Wed, 04 Apr 2018 16:14:56 GMT",
       "Etag": "\"83-569081fb8235e-gzip\"",
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Content-Type": "text/html"
     },
     "meta": {
@@ -115,52 +110,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 1,
-      "download_latency": 0.030215978622436523,
-      "download_slot": "target.com"
-    },
-    "query": ""
-  },
-  {
-    "cookies": [],
-    "endpoint": "/csrf/csrf.php",
-    "get_post": [],
-    "url": "http://target.com/csrf/csrf.php",
-    "input_post_params": "<form method=\"POST\">\n    Message: <input type=\"text\" name=\"secret\" value=\"SECRET\">\n    <input type=\"hidden\" name=\"csrftoken\" value=\"abcdef1235\">\n    <input type=\"submit\">\n</form>",
-    "request": "<Request GET http://target.com/csrf/csrf.php>",
-    "forms": {
-      "action": [],
-      "inputs": {
-        "name": [
-          "secret",
-          "csrftoken"
-        ],
-        "value": [
-          "SECRET",
-          "abcdef1235"
-        ]
-      },
-      "form_method": [
-        "POST"
-      ],
-      "form": "<form method=\"POST\">\n    Message: <input type=\"text\" name=\"secret\" value=\"SECRET\">\n    <input type=\"hidden\" name=\"csrftoken\" value=\"abcdef1235\">\n    <input type=\"submit\">\n</form>",
-      "method": [
-        [
-          "POST"
-        ]
-      ]
-    },
-    "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
-      "Vary": "Accept-Encoding",
-      "Server": "Apache/2.4.18 (Ubuntu)",
-      "Content-Type": "text/html; charset=UTF-8"
-    },
-    "meta": {
-      "link_text": "Cross Site Request Forgery",
-      "rule": 0,
-      "download_timeout": 180,
-      "depth": 1,
-      "download_latency": 0.029031038284301758,
+      "download_latency": 0.023955106735229492,
       "download_slot": "target.com"
     },
     "query": ""
@@ -168,30 +118,27 @@
   {
     "cookies": [],
     "endpoint": "/sqli/sqli.php",
-    "get_post": [],
+    "get_post": [
+      "POST"
+    ],
     "url": "http://target.com/sqli/sqli.php",
     "input_post_params": "<form id=\"directory\" method=\"POST\">\n    <input type=\"text\" name=\"username\">\n    <input type=\"submit\">\n</form>",
     "request": "<Request GET http://target.com/sqli/sqli.php>",
-    "forms": {
-      "action": [],
-      "inputs": {
-        "name": [
-          "username"
-        ],
-        "value": []
-      },
-      "form_method": [
-        "POST"
-      ],
-      "form": "<form id=\"directory\" method=\"POST\">\n    <input type=\"text\" name=\"username\">\n    <input type=\"submit\">\n</form>",
-      "method": [
-        [
+    "forms": [
+      {
+        "action": "",
+        "inputs": {
+          "username": ""
+        },
+        "form_method": "POST",
+        "form": "<form id=\"directory\" method=\"POST\">\n    <input type=\"text\" name=\"username\">\n    <input type=\"submit\">\n</form>",
+        "method": [
           "POST"
         ]
-      ]
-    },
+      }
+    ],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -201,88 +148,49 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 1,
-      "download_latency": 0.028898000717163086,
+      "download_latency": 0.020730972290039062,
       "download_slot": "target.com"
     },
     "query": ""
   },
   {
     "cookies": [],
-    "endpoint": "/directorytraversal/directorytraversal.php",
+    "endpoint": "/csrf/csrf.php",
     "get_post": [
-      "GET"
+      "POST"
     ],
-    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=stretch.ascii",
-    "input_post_params": "",
-    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=stretch.ascii>",
-    "forms": {},
+    "url": "http://target.com/csrf/csrf.php",
+    "input_post_params": "<form method=\"POST\">\n    Message: <input type=\"text\" name=\"secret\" value=\"SECRET\">\n    <input type=\"hidden\" name=\"csrftoken\" value=\"abcdef1235\">\n    <input type=\"submit\">\n</form>",
+    "request": "<Request GET http://target.com/csrf/csrf.php>",
+    "forms": [
+      {
+        "action": "",
+        "inputs": {
+          "csrftoken": "abcdef1235",
+          "secret": "SECRET"
+        },
+        "form_method": "POST",
+        "form": "<form method=\"POST\">\n    Message: <input type=\"text\" name=\"secret\" value=\"SECRET\">\n    <input type=\"hidden\" name=\"csrftoken\" value=\"abcdef1235\">\n    <input type=\"submit\">\n</form>",
+        "method": [
+          "POST"
+        ]
+      }
+    ],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
     },
     "meta": {
-      "link_text": "Stretchy\n                    Cat",
+      "link_text": "Cross Site Request Forgery",
       "rule": 0,
       "download_timeout": 180,
-      "depth": 2,
-      "download_latency": 0.05368804931640625,
+      "depth": 1,
+      "download_latency": 0.02789902687072754,
       "download_slot": "target.com"
     },
-    "query": "ascii=stretch.ascii"
-  },
-  {
-    "cookies": [],
-    "endpoint": "/directorytraversal/directorytraversal.php",
-    "get_post": [
-      "GET"
-    ],
-    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=fence.ascii",
-    "input_post_params": "",
-    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=fence.ascii>",
-    "forms": {},
-    "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
-      "Vary": "Accept-Encoding",
-      "Server": "Apache/2.4.18 (Ubuntu)",
-      "Content-Type": "text/html; charset=UTF-8"
-    },
-    "meta": {
-      "link_text": "Fence\n                    Cats",
-      "rule": 0,
-      "download_timeout": 180,
-      "depth": 2,
-      "download_latency": 0.05523395538330078,
-      "download_slot": "target.com"
-    },
-    "query": "ascii=fence.ascii"
-  },
-  {
-    "cookies": [],
-    "endpoint": "/directorytraversal/directorytraversal.php",
-    "get_post": [
-      "GET"
-    ],
-    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=angry.ascii",
-    "input_post_params": "",
-    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=angry.ascii>",
-    "forms": {},
-    "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
-      "Vary": "Accept-Encoding",
-      "Server": "Apache/2.4.18 (Ubuntu)",
-      "Content-Type": "text/html; charset=UTF-8"
-    },
-    "meta": {
-      "link_text": "Angry\n                    Cat",
-      "rule": 0,
-      "download_timeout": 180,
-      "depth": 2,
-      "download_latency": 0.06165599822998047,
-      "download_slot": "target.com"
-    },
-    "query": "ascii=angry.ascii"
+    "query": ""
   },
   {
     "cookies": [],
@@ -293,9 +201,9 @@
     "url": "http://target.com/serverside/serverside.php?page=bananas",
     "input_post_params": "",
     "request": "<Request GET http://target.com/serverside/serverside.php?page=bananas>",
-    "forms": {},
+    "forms": [],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -305,7 +213,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 2,
-      "download_latency": 0.03100109100341797,
+      "download_latency": 0.024072885513305664,
       "download_slot": "target.com"
     },
     "query": "page=bananas"
@@ -319,9 +227,9 @@
     "url": "http://target.com/serverside/serverside.php?page=oranges",
     "input_post_params": "",
     "request": "<Request GET http://target.com/serverside/serverside.php?page=oranges>",
-    "forms": {},
+    "forms": [],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -331,7 +239,7 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 2,
-      "download_latency": 0.030755043029785156,
+      "download_latency": 0.02629399299621582,
       "download_slot": "target.com"
     },
     "query": "page=oranges"
@@ -345,9 +253,9 @@
     "url": "http://target.com/serverside/serverside.php?page=apples",
     "input_post_params": "",
     "request": "<Request GET http://target.com/serverside/serverside.php?page=apples>",
-    "forms": {},
+    "forms": [],
     "headers": {
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Content-Type": "text/html; charset=UTF-8"
@@ -357,10 +265,36 @@
       "rule": 0,
       "download_timeout": 180,
       "depth": 2,
-      "download_latency": 0.028741121292114258,
+      "download_latency": 0.026841163635253906,
       "download_slot": "target.com"
     },
     "query": "page=apples"
+  },
+  {
+    "cookies": [],
+    "endpoint": "/directorytraversal/directorytraversal.php",
+    "get_post": [
+      "GET"
+    ],
+    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=angry.ascii",
+    "input_post_params": "",
+    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=angry.ascii>",
+    "forms": [],
+    "headers": {
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
+      "Vary": "Accept-Encoding",
+      "Server": "Apache/2.4.18 (Ubuntu)",
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "meta": {
+      "link_text": "Angry\n                    Cat",
+      "rule": 0,
+      "download_timeout": 180,
+      "depth": 2,
+      "download_latency": 0.026655912399291992,
+      "download_slot": "target.com"
+    },
+    "query": "ascii=angry.ascii"
   },
   {
     "cookies": [],
@@ -369,14 +303,14 @@
     "url": "http://target.com/openredirect/success.html",
     "input_post_params": "",
     "request": "<Request GET http://target.com/openredirect/success.html>",
-    "forms": {},
+    "forms": [],
     "headers": {
       "Accept-Ranges": "bytes",
       "Vary": "Accept-Encoding",
       "Server": "Apache/2.4.18 (Ubuntu)",
       "Last-Modified": "Wed, 04 Apr 2018 16:14:56 GMT",
       "Etag": "\"6b-569081fb8235e-gzip\"",
-      "Date": "Sat, 14 Apr 2018 15:45:26 GMT",
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
       "Content-Type": "text/html"
     },
     "meta": {
@@ -385,7 +319,7 @@
         "http://target.com/openredirect/openredirect.php?redirect=success.html"
       ],
       "depth": 2,
-      "download_latency": 0.0028281211853027344,
+      "download_latency": 0.0031180381774902344,
       "download_slot": "target.com",
       "redirect_times": 1,
       "link_text": "Click",
@@ -393,5 +327,57 @@
       "redirect_ttl": 19
     },
     "query": ""
+  },
+  {
+    "cookies": [],
+    "endpoint": "/directorytraversal/directorytraversal.php",
+    "get_post": [
+      "GET"
+    ],
+    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=stretch.ascii",
+    "input_post_params": "",
+    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=stretch.ascii>",
+    "forms": [],
+    "headers": {
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
+      "Vary": "Accept-Encoding",
+      "Server": "Apache/2.4.18 (Ubuntu)",
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "meta": {
+      "link_text": "Stretchy\n                    Cat",
+      "rule": 0,
+      "download_timeout": 180,
+      "depth": 2,
+      "download_latency": 0.008137941360473633,
+      "download_slot": "target.com"
+    },
+    "query": "ascii=stretch.ascii"
+  },
+  {
+    "cookies": [],
+    "endpoint": "/directorytraversal/directorytraversal.php",
+    "get_post": [
+      "GET"
+    ],
+    "url": "http://target.com/directorytraversal/directorytraversal.php?ascii=fence.ascii",
+    "input_post_params": "",
+    "request": "<Request GET http://target.com/directorytraversal/directorytraversal.php?ascii=fence.ascii>",
+    "forms": [],
+    "headers": {
+      "Date": "Sun, 15 Apr 2018 08:59:41 GMT",
+      "Vary": "Accept-Encoding",
+      "Server": "Apache/2.4.18 (Ubuntu)",
+      "Content-Type": "text/html; charset=UTF-8"
+    },
+    "meta": {
+      "link_text": "Fence\n                    Cats",
+      "rule": 0,
+      "download_timeout": 180,
+      "depth": 2,
+      "download_latency": 0.011021137237548828,
+      "download_slot": "target.com"
+    },
+    "query": "ascii=fence.ascii"
   }
 ]
