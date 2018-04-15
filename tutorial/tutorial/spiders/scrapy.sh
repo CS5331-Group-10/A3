@@ -1,2 +1,2 @@
 #!/bin/sh
-scrapy runspider example.py -o result.json
+scrapy runspider example.py -t json -o - > "result.json"
