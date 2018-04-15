@@ -3,14 +3,16 @@ import ssci
 import oRedirect 
 import re
 import sqli
+from datetime import datetime
 
-BASE_URL = "http://target.com/"
+BASE_URL = "http://target.com"
 sql_injection = "SQL Injection"
 server_injection = "Server Side Code Injection"
 directory_traversal = "Directory Traversal"
 open_redirect = "Open Redirect"
 cross_site_request_forgery = "Cross Site Request Forgery"
 shell_command = "Shell Command Injection"
+
 
 def injectPayload(url, paramname, method, payload, verbose = False):
 	parsedURL = BASE_URL + url	
@@ -33,6 +35,9 @@ def injectPayload(url, paramname, method, payload, verbose = False):
 
 	if result is not None:
 		print payload
+		f = open("exploit/" + payload[1] + str(datetime.now()) +".sh","w+")
+
+		f.write("python showexploit.py " + '"' + parsedURL +'" ' + method + ' "' +payload[0]+'"')
 		return payload
 
 def checkSuccess(html, attackType, content, v=False):
