@@ -142,16 +142,16 @@ if __name__ == "__main__":
 
 	#sqli
 	# post in the form
-	#url = "/sqli/sqli.php"
-	#payloads = sqli.get_all()
-	#for payload in payloads:
-	#	injectPayload(url, "username", "POST", payload)
+	url = "/sqli/sqli.php"
+	payloads = sqli.get_all()
+	for payload in payloads:
+		injectPayload(url, "username", "POST", payload)
 
 	#Test for server side code injection
-	url = "/serverside/eval2.php"
-	payloads = ssci.get_all(url)
-	for payload in payloads:
-		injectPayload(url, "page", "POST", payload)
+	# url = "/serverside/eval2.php"
+	# payloads = ssci.get_all(url)
+	# for payload in payloads:
+	# 	injectPayload(url, "page", "POST", payload)
 	'''
 	#test for open redirect
 	url = "/openredirect/openredirect.php"
