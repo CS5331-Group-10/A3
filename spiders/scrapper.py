@@ -13,7 +13,8 @@ class MyItem(Item):
     originalResponse = Field()
     url= Field()
     endpoint = Field()
-    query = Field()
+    get_params = Field()
+    post_params = Field()
     headers = Field()
     resquest = Field()
     cookies = Field()
@@ -60,8 +61,8 @@ class ExampleSpider(CrawlSpider):
         ### See if there is a GET request ###
         get_post_value = []
         request = response.request
-        query = parsed.query
-        if (query or 'GET' in value):
+        get_params = parsed.query
+        if (get_params or 'GET' in value):
             get_post_value.append('GET')
             if ('POST' in value):
                 get_post_value.append('POST')
@@ -73,8 +74,18 @@ class ExampleSpider(CrawlSpider):
             pass
 
         methods = response.xpath('//form//@method').extract()
+        ##handling post_params:
+        post_params = response.xpath('//form//input//@name').extract()
+        # print "yay"
+        # print len(post_params)
 
-        if (query and 'GET' not in methods):
+        ##handling input params:
+        if get_params :
+            get_params.split('=')
+        else:
+            pass
+
+        if (get_params and 'GET' not in methods):
             methods.append('GET')
 
 
@@ -98,13 +109,15 @@ class ExampleSpider(CrawlSpider):
 
         forms = []
         if(response.css('form')):
+            # print len(response.css('form').extract())
             for i in range(len(response.css('form').extract())):
+
                 form_values = {}
 
 
                 value = response.css('form')[i].extract()
                 action = response.xpath('//form//@action')[i].extract() if response.xpath('//form//@action') else ''
-                method = response.xpath('//form//@method')[i].extract() if response.xpath('//form//@method') else ''
+                method = response.xpath('//form[position()=0]').extract() if response.xpath('//form//@method') else ''
 
 
                 inputs={}
@@ -132,7 +145,8 @@ class ExampleSpider(CrawlSpider):
             "endpoint": parsed.path,
             "forms": forms,
             "url": response.url,
-            "query": parsed.query,
+            "get_params": parsed.query,
+            "post_params": post_params,
             "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
             "request": response.request,
