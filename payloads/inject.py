@@ -19,7 +19,7 @@ open_redirect = "Open Redirect"
 cross_site_request_forgery = "Cross Site Request Forgery"
 shell_command = "Shell Command Injection"
 
-def injectPayload(url, method, paramname, payload, verbose = False):
+def injectPayload(url, paramname, method, payload, verbose = False):
 	parsedURL = BASE_URL + url	
 	html = ""
 
