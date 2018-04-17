@@ -76,12 +76,31 @@ class ExampleSpider(CrawlSpider):
         methods = response.xpath('//form//@method').extract()
         ##handling post_params:
         post_params = response.xpath('//form//input//@name').extract()
-        # print "yay"
-        # print len(post_params)
+
 
         ##handling input params:
+
+
+        # if get_params :
+        #     if (get_params.split('&')):
+        #         get_params = get_params.split('&')
+        #         if (get_params.split('=')):
+        #             get_params = get_params.split('=')
+        #     else:
+        #         pass
+        #
+        #
+        # else:
+        #     pass
+
         if get_params :
-            get_params.split('=')
+
+            if (get_params.split('=')):
+                get_params = get_params.split('=')[0]
+            else:
+                pass
+
+
         else:
             pass
 
@@ -145,7 +164,7 @@ class ExampleSpider(CrawlSpider):
             "endpoint": parsed.path,
             "forms": forms,
             "url": response.url,
-            "get_params": parsed.query,
+            "get_params": get_params,
             "post_params": post_params,
             "headers": response.headers,
             "cookies":response.headers.getlist('Set-Cookie'),
