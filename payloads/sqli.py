@@ -1,7 +1,7 @@
 import difflib
 
 def get_false():
-	payloads = ["' and ' 1=2"]
+	payloads = "' and ' 1=2"
 	return payloads
 
 def get_all():

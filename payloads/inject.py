@@ -19,11 +19,10 @@ open_redirect = "Open Redirect"
 cross_site_request_forgery = "Cross Site Request Forgery"
 shell_command = "Shell Command Injection"
 
-def injectPayload(url, paramname, method, payload, verbose = False):
+def injectPayload(url, method, paramname, payload, verbose = False):
 	parsedURL = BASE_URL + url	
 	html = ""
 
-	
 	#if get
 	if method == "GET":
 		getURL = parsedURL + "?" + paramname+"="+payload[0]
@@ -35,13 +34,13 @@ def injectPayload(url, paramname, method, payload, verbose = False):
 		content = requests.post(parsedURL, data={paramname:payload[0]})
 		html = content.text
 
+
 	result = checkSuccess(html, payload[1], content, parsedURL, method, paramname, verbose)
 	
 	#if function returns:
 	if result is not None:
-		print payload
 		#generateExploit(parsedURL, method, paramname, payload)
-		return payload
+		return True
 	return None
 
 def timeid(full=False):
@@ -88,7 +87,7 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 		falsePayload = sqli.get_false()
 		#if get
 		if method == "GET":
-			getURL = parsedURL + "?" + paramname+"="+falsePayload
+			getURL = url + "?" + paramname+"="+falsePayload
 			content = requests.get(getURL)
 			badhtml =  content.text
 		#if post
@@ -100,7 +99,7 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 		match = re.findall(r'<ins>.+', compare_res)
 		if len(match) ==0 :
 			return None
-		return match
+		return None
 
 	#====== check for open_redirect=======
 	if attackType == open_redirect:
