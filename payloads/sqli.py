@@ -2,12 +2,10 @@ import difflib
 
 def get_false():
 	payloads = ["' and ' 1=2"]
-	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads
 
 def get_all():
 	payloads = ["' or '1=1"]
-
 	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads	
 

@@ -44,10 +44,10 @@ def get_all(url, depth = 1, filename="index"):
 	all_list.extend(inclusion_list)
 	#write a html-escaped version of each as well?
 
-	all_list = [(item, "SSCI") for item in all_list]
+	all_list = [(item, "Server Side Code Injection") for item in all_list]
 	return all_list
 
 
 if __name__ == "__main__":	
 	url = "/serverside/lfi2.php"
-	get_all(url,2, "index")
+	print(get_all(url,2, "index"))

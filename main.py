@@ -5,7 +5,11 @@ import json
 json_data = open("result.json","r")
 data = json.load(json_data)
 
+for a in data[0]:
+	print a
 
+for b in data:
+	print b["endpoint"], b["get_post"], b["query"]
 #for each endpoint in JSON, get ENDPOINT, PARAMS, METHOD [TBC: Zishan]
 	#for each payload, [TBC: Zhizhong]
 		#run injectPayload(url, paramname, method, payload) [DONE]	

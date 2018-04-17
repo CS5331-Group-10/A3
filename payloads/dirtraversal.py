@@ -1,10 +1,9 @@
 
 import itertools
 
-def get_all():
+def get_all(depth_count=8):
 	paths = []
 	dotvar = "../"
-	depth_count= 8
 	for i in range(1, depth_count):
 		paths.append(i* dotvar)
 
