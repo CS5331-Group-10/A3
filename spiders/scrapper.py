@@ -2,10 +2,14 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.item import Item, Field
 from urlparse import urlparse
+from urlparse import parse_qs
+# import urllib
+# from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import requests
 from scrapy.selector import Selector
 import re
+# from urlparse import  parse
 
 import os
 
@@ -42,8 +46,21 @@ class ExampleSpider(CrawlSpider):
         item = MyItem()
         value = ''
         item['originalResponse'] = response.url
-        parsed = urlparse(response.url)
 
+        #
+        # links = LinkExtractor(allow=(),canonicalize = True).extract_links(response)
+        # print links
+        # print "Wee"
+
+        parsed = urlparse(response.url)
+        query = urlparse(response.url).query
+        get_params = parse_qs(query).keys()
+        # parse = urlparse.urlsplit(response.url)
+        # parse_input = urlparse_qs(parsed.query)
+        # get_params = urlparse.parse_qs("test=test1&test2=test2")
+
+        # print parse_input
+        # print "wee"
         # if 'html' in response.url:
         #     yield{
         #         html_url : response.url
@@ -61,7 +78,7 @@ class ExampleSpider(CrawlSpider):
         ### See if there is a GET request ###
         get_post_value = []
         request = response.request
-        get_params = parsed.query
+        # get_params = parsed.query
         if (get_params or 'GET' in value):
             get_post_value.append('GET')
             if ('POST' in value):
@@ -93,16 +110,16 @@ class ExampleSpider(CrawlSpider):
         # else:
         #     pass
 
-        if get_params :
-
-            if (get_params.split('=')):
-                get_params = get_params.split('=')[0]
-            else:
-                pass
-
-
-        else:
-            pass
+        # if get_params :
+        #
+        #     if (get_params.split('=')):
+        #         get_params = get_params.split('=')[0]
+        #     else:
+        #         pass
+        #
+        #
+        # else:
+        #     pass
 
         if (get_params and 'GET' not in methods):
             methods.append('GET')
