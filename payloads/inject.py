@@ -121,8 +121,19 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 
 	return None;
 	
+def get_payloads(v=False):
+	payloads = cmd.get_all() +sqli.get_all() + ssci.get_all() + oRedirect.get_all() + dirtraversal.get_all()
+
+	if v == True:
+		for p in payloads:
+			print p[0]
+
+	return payloads
+
 
 if __name__ == "__main__":
+	get_payloads(v=True)
+
 	## test directory shell
     # url = '/directorytraversal/directorytraversal.php'
     # payloads = dirtraversal.get_all()
@@ -142,10 +153,10 @@ if __name__ == "__main__":
 
 	#sqli
 	# post in the form
-	url = "/sqli/sqli.php"
-	payloads = sqli.get_all()
-	for payload in payloads:
-		injectPayload(url, "username", "POST", payload)
+	#url = "/sqli/sqli.php"
+	#payloads = sqli.get_all()
+	#for payload in payloads:
+	#	injectPayload(url, "username", "POST", payload)
 
 	#Test for server side code injection
 	# url = "/serverside/eval2.php"
