@@ -19,7 +19,7 @@ open_redirect = "Open Redirect"
 cross_site_request_forgery = "Cross Site Request Forgery"
 shell_command = "Shell Command Injection"
 
-def injectPayload(url, paramname, method, payload, verbose = False):
+def injectPayload(url, method, paramname, payload, verbose = False):
 	parsedURL = BASE_URL + url	
 	html = ""
 
@@ -84,7 +84,8 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 	#===== check for sql_injection ======
 	if attackType == sql_injection:
 		
-		falsePayload = sqli.get_false()
+		falsePayload = sqli.get_false()[0]
+		badhtml = ""
 		#if get
 		if method == "GET":
 			getURL = url + "?" + paramname+"="+falsePayload

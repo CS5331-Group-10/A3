@@ -13,6 +13,8 @@ for b in data:
 	ep = b["endpoint"], b["get_post"], b["get_params"], b["post_params"]
 	epList.append(ep)
 
+epList=list(set(epList))
+
 #READ PAYLOADs
 payloads = ij.get_payloads()
 
@@ -54,7 +56,7 @@ for payload in payloads:
 					if (ij.injectPayload(url,method,param,payload) == True):
 						listExploits[getId(payload[1])]["results"][target].append(
 						{
-							"url": url,
+							"endpoint": url,
 							"params":{param:payload[0]},
 							"method": method
 						})		
@@ -64,13 +66,13 @@ for payload in payloads:
 					if (ij.injectPayload(url,method,param,payload) == True):
 						listExploits[getId(payload[1])]["results"][target].append(
 						{
-							"url": url,
+							"endpoint": url,
 							"params":{param:payload[0]},
 							"method": method
 						})		
 
 
-print listExploits
+print json.dumps(listExploits)
 
 def timeid(full=False):
 	if full==False:
