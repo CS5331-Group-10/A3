@@ -1,8 +1,13 @@
 import difflib
 
 def get_false():
-	payloads = "' and ' 1=2"
+	## the second is taken as ground truth to filter out real sql-injection page
+	payloads = ["' and '1=2", "' or '1'='1"]
 	return payloads
+
+# def get_false():
+# 	payloads = "' and '1=2"
+# 	return payloads
 
 def get_all():
 	"""
@@ -16,7 +21,9 @@ def get_all():
 	' OR '1'='1' %00
 	' OR '1'='1' %16
 	"""
-	payloads = ["' or '1=1", "' or ' 1=1--", "'=1\' or \'1\' = \'1\'", "'1 'or' 1 '=' 1", "'or 1=1#", "' OR '1=1 %00"]
+	## temp test
+	# payloads = ["' or '1=1"]
+	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", "' OR '1=1 %00"]
 	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads	
 
