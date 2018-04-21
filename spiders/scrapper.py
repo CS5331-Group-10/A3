@@ -51,7 +51,7 @@ class ExampleSpider(CrawlSpider):
         # print "hahhaha"
         # print response
         parsed = urlparse(response.url)
-
+        endpoint_result = []
 
         ### ALL THE GET URL #####
         all_links = response.xpath('*//a/@href').extract()
@@ -82,7 +82,7 @@ class ExampleSpider(CrawlSpider):
 
                     param = get_params_for_get_url
                     method = "GET"
-                    endpoint_result = []
+
                     endpoint_result.append(
                         {
                         'endpoint' : endpoint,
@@ -101,14 +101,25 @@ class ExampleSpider(CrawlSpider):
             # print "WTH"
 
         elif(response.css('form')):
-            # print "IN ELIF"
-            # print response
-            # print "IN ELIF"
+            # print response.xpath('//form')
+            for form in (response.xpath('//form')):
 
 
-            # print "KNS"
+                for form_method in form.xpath('.//@method'):
+                    method = form_method.extract()
+                for form_params in form.xpath('.//input//@name'):
+                    post_params = form_params.extract()
+
+                    endpoint = response.url
+                    param = post_params
 
 
+                    endpoint_result.append({
+                        'endpoint' : endpoint,
+                        'param' : param,
+                        'method' : method
+                        }
+                    )
 
         # Handle action methods ###
             actions = response.xpath('//form//@action/text').extract()
@@ -164,52 +175,43 @@ class ExampleSpider(CrawlSpider):
             # else:
             #     value = ''
 
-            forms = []
-            if(response.css('form')):
-                # print len(response.css('form').extract())
-                for i in range(len(response.css('form').extract())):
-
-                    form_values = {}
-
-
-                    value = response.css('form')[i].extract()
-                    action = response.xpath('//form//@action')[i].extract() if response.xpath('//form//@action') else ''
-                    method = response.xpath('//form[position()=0]').extract() if response.xpath('//form//@method') else ''
-
-
-                    inputs={}
-                    for j in range(len(response.xpath('//form/input/@name').extract())):
-
-
-                        inputs_name = response.xpath('//form/input/@name')[j].extract() if response.xpath('//form/input/@name') else ''
-                        inputs_value = response.xpath('//form/input/@value')[j].extract() if response.xpath('//form/input/@value') else ''
-                        inputs[inputs_name] = inputs_value
-
-
-
-                    #
-                    # form_values['form'] = value
-                    # form_values['action'] = action
-                    # form_values['form_method'] = method
-                    # form_values['overall_method'] = methods
-                    # form_values['inputs'] = inputs
-                    # form_values['inputs'] = {'name': inputs_name if inputs_name else '', 'value': inputs_value if inputs_value else ''}
-                    forms.append(form_values)
-            else:
-                value = ''
+            # forms = []
+            # if(response.css('form')):
+            #     # print len(response.css('form').extract())
+            #     for i in range(len(response.css('form').extract())):
+            #
+            #         form_values = {}
+            #
+            #
+            #         value = response.css('form')[i].extract()
+            #         action = response.xpath('//form//@action')[i].extract() if response.xpath('//form//@action') else ''
+            #         method = response.xpath('//form[position()=0]').extract() if response.xpath('//form//@method') else ''
+            #
+            #
+            #         inputs={}
+            #         for j in range(len(response.xpath('//form/input/@name').extract())):
+            #
+            #
+            #             inputs_name = response.xpath('//form/input/@name')[j].extract() if response.xpath('//form/input/@name') else ''
+            #             inputs_value = response.xpath('//form/input/@value')[j].extract() if response.xpath('//form/input/@value') else ''
+            #             inputs[inputs_name] = inputs_value
+            #
+            #
+            #
+            #         #
+            #         # form_values['form'] = value
+            #         # form_values['action'] = action
+            #         # form_values['form_method'] = method
+            #         # form_values['overall_method'] = methods
+            #         # form_values['inputs'] = inputs
+            #         # form_values['inputs'] = {'name': inputs_name if inputs_name else '', 'value': inputs_value if inputs_value else ''}
+            #         forms.append(form_values)
+            # else:
+            #     value = ''
 
             ### PARAMS #########
 
-            endpoint = response.url
-            param = post_params
-            method = "POST"
-            endpoint_result = []
-            endpoint_result.append({
-                'endpoint' : endpoint,
-                'param' : param,
-                'method' : method
-                }
-            )
+
             # yield{
             #      "endpoint": endpoint,
             #     "param": param,
@@ -219,6 +221,7 @@ class ExampleSpider(CrawlSpider):
             # endpoint = ""
             # param = ""
             # method = ""
+
             pass
 
 
