@@ -16,22 +16,26 @@ import os
 
 class MyItem(Item):
     originalResponse = Field()
-    url= Field()
+    param = Field()
+    method = Field()
+    value = Field()
     endpoint = Field()
-    get_params = Field()
-    post_params = Field()
-    headers = Field()
-    resquest = Field()
-    cookies = Field()
-    meta = Field()
-    raw_html = Field()
-    input_post_params = Field()
-    html_url = Field()
-    get_post = Field()
-    action_url = Field()
-    forms = Field()
-    get_url = Field()
-    endpoint_result = Field()
+    endpoints = Field()
+    # url= Field()
+    # get_params = Field()
+    # post_params = Field()
+    # headers = Field()
+    # resquest = Field()
+    # cookies = Field()
+    # meta = Field()
+    # raw_html = Field()
+    # input_post_params = Field()
+    # html_url = Field()
+    # get_post = Field()
+    # action_url = Field()
+    # forms = Field()
+    # get_url = Field()
+    # endpoint_result = Field()
 
 
 class ExampleSpider(CrawlSpider):
@@ -47,7 +51,7 @@ class ExampleSpider(CrawlSpider):
         selector = Selector(response)
         item = MyItem()
         value = ''
-        item['originalResponse'] = response.url
+        # item['originalResponse'] = response.url
         # print "hahhaha"
         # print response
         parsed = urlparse(response.url)
@@ -82,14 +86,17 @@ class ExampleSpider(CrawlSpider):
 
                     param = get_params_for_get_url
                     method = "GET"
-
-                    endpoint_result.append(
-                        {
-                        'endpoint' : endpoint,
-                        'param' : param,
-                        'method' : method
-                        }
-                    )
+                    item['endpoint'] = endpoint
+                    item['param'] = param
+                    item['method'] = method
+                    # return item
+                    # endpoint_result.append(
+                    #     {
+                    #     'endpoint' : endpoint,
+                    #     'param' : param,
+                    #     'method' : method
+                    #     }
+                    # )
 
                     # yield{
                     #      "endpoint": endpoint,
@@ -97,71 +104,94 @@ class ExampleSpider(CrawlSpider):
                     #     "get_post" : method
                     # }
                 else:
-                    pass
+                    return
             # print "WTH"
 
         elif(response.css('form')):
-            endpoint = response.url
+            endpoint =parsed.path
+            item['endpoint'] = endpoint
+            param = ''
+            method = ''
+            value = ''
+            list_form =[]
             # print response.xpath('//form')
             for form in (response.xpath('//form')):
+
+                for form_method in form.xpath('.//@method'):
+                    method = form_method.extract()
+                    item['method'] = method
                 # Handle action methods ###
                 if (form.xpath('.//@action')):
                     actions = form.xpath('.//@action')[0].extract()
                     endpoint = actions
-
-
-                for form_method in form.xpath('.//@method'):
-                    method = form_method.extract()
-                for form_params in form.xpath('.//input//@name'):
-                    post_params = form_params.extract()
-
-
-                    param = post_params
-
-
-                endpoint_result.append({
-                    'endpoint' : endpoint,
-                    'param' : param,
-                    'method' : method
-                    }
-                )
-
-
-
-
-            ## HANDLING GET_PARAMS FROM CURRENT RESPONSE.URL
-            query = urlparse(response.url).query
-            get_params = parse_qs(query).keys()
-            ### TO BE REMOVED
-
-            ### See if there is a GET request ###
-            get_post_value = []
-            request = response.request
-
-            if (get_params or 'GET' in value):
-                get_post_value.append('GET')
-                if ('POST' in value):
-                    get_post_value.append('POST')
+                    item['endpoint'] = endpoint
                 else:
                     pass
-            elif ('POST' in value):
-                get_post_value.append('POST')
-            else:
-                pass
-
-            methods = response.xpath('//form//@method').extract()
-
-            ##handling post_params:
-            post_params = response.xpath('//form//input//@name').extract()
 
 
-            if (get_params and 'GET' not in methods):
-                methods.append('GET')
+                if (form.xpath('.//input//@name')):
+                    post_params = form.xpath('.//input//@name').extract()
+                    param = post_params
+                    item['param'] = param
+                else:
+                    item['param'] = ''
+                if (form.xpath('.//input/@value')):
+                    value = form.xpath('.//input/@value').extract()
+                    item['value'] = value
+                else:
+                    item['value'] = ''
 
 
-            else:
-                pass
 
+                list_form.append(item)
+            item = list_form
+            # return list_form
+                # print item
+                # return list_form
+                # endpoint_result.append({
+                #     'endpoint' : endpoint,
+                #     'param' : param,
+                #     'method' : form_method_type,
+                #     'value' : value
+                #     }
+                # )
+
+
+            #
+            #
+            # ## HANDLING GET_PARAMS FROM CURRENT RESPONSE.URL
+            # query = urlparse(response.url).query
+            # get_params = parse_qs(query).keys()
+            # ### TO BE REMOVED
+            #
+            # ### See if there is a GET request ###
+            # get_post_value = []
+            # request = response.request
+            #
+            # if (get_params or 'GET' in value):
+            #     get_post_value.append('GET')
+            #     if ('POST' in value):
+            #         get_post_value.append('POST')
+            #     else:
+            #         pass
+            # elif ('POST' in value):
+            #     get_post_value.append('POST')
+            # else:
+            #     pass
+            #
+            # methods = response.xpath('//form//@method').extract()
+            #
+            # ##handling post_params:
+            # post_params = response.xpath('//form//input//@name').extract()
+            #
+            #
+            # if (get_params and 'GET' not in methods):
+            #     methods.append('GET')
+            #
+            #
+            # else:
+            #     pass
+            #
 
 
 
@@ -226,7 +256,7 @@ class ExampleSpider(CrawlSpider):
             # param = ""
             # method = ""
 
-            pass
+            return
 
 
             # print "in ELSE"
@@ -251,7 +281,10 @@ class ExampleSpider(CrawlSpider):
             #     # "get_params": get_params_for_get_url
             #
             # }
-        print endpoint_result
+        yield{
+            "endpoints": item
+        }
+
         # yield {
         #     "endpoint_result" : endpoint_result
         #     # "endpoint": endpoint,
