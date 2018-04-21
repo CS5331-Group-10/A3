@@ -84,7 +84,8 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 	#===== check for sql_injection ======
 	if attackType == sql_injection:
 		
-		falsePayload = sqli.get_false()
+		falsePayload = sqli.get_false()[0]
+		badhtml = ""
 		#if get
 		if method == "GET":
 			getURL = url + "?" + paramname+"="+falsePayload

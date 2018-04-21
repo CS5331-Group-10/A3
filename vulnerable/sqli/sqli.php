@@ -24,7 +24,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $query = "select username, age, school from users where username = '" . $_POST['username'] . "';";
+    // $query = "select username, age, school from users where username = '" . CAT . "'; ' OR ' 1=1";
+    $query = "select now()";
 
     if (isset($_GET['debug'])) {
         echo("<pre>" . $query . "</pre><br />");
