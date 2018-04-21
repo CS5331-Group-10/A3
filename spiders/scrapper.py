@@ -101,8 +101,13 @@ class ExampleSpider(CrawlSpider):
             # print "WTH"
 
         elif(response.css('form')):
+            endpoint = response.url
             # print response.xpath('//form')
             for form in (response.xpath('//form')):
+                # Handle action methods ###
+                if (form.xpath('.//@action')):
+                    actions = form.xpath('.//@action')[0].extract()
+                    endpoint = actions
 
 
                 for form_method in form.xpath('.//@method'):
@@ -110,19 +115,18 @@ class ExampleSpider(CrawlSpider):
                 for form_params in form.xpath('.//input//@name'):
                     post_params = form_params.extract()
 
-                    endpoint = response.url
+
                     param = post_params
 
 
-                    endpoint_result.append({
-                        'endpoint' : endpoint,
-                        'param' : param,
-                        'method' : method
-                        }
-                    )
+                endpoint_result.append({
+                    'endpoint' : endpoint,
+                    'param' : param,
+                    'method' : method
+                    }
+                )
 
-        # Handle action methods ###
-            actions = response.xpath('//form//@action/text').extract()
+
 
 
             ## HANDLING GET_PARAMS FROM CURRENT RESPONSE.URL
