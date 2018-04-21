@@ -2,12 +2,18 @@
 <body>
 <h1>Server Side Code Injection</h1>
 
-<form id="hi" method="get">
+<form id="hi">
 Eval this: <input type="text" name="page">
 <input type="submit" value="submit">
 </form>
-<?php
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+
+</script>
+
+<?php
 
 if (isset($_GET['page'])){
 	
