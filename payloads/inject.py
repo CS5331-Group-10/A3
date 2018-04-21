@@ -39,6 +39,7 @@ def injectPayload(url, method, paramname, payload, verbose = False):
 	
 	#if function returns:
 	if result is not None:
+		print(url, payload)
 		#generateExploit(parsedURL, method, paramname, payload)
 		return True
 	return None
@@ -82,25 +83,63 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 		return match
 
 	#===== check for sql_injection ======
-	if attackType == sql_injection:
+	"""
+	# if attackType == sql_injection:
 		
-		falsePayload = sqli.get_false()[0]
-		badhtml = ""
-		#if get
-		if method == "GET":
-			getURL = url + "?" + paramname+"="+falsePayload
-			content = requests.get(getURL)
-			badhtml =  content.text
-		#if post
-		elif method == "POST":
-			content = requests.post(url, data={paramname:falsePayload})
-			badhtml = content.text
+	# 	falsePayload = sqli.get_false()[0]
+	# 	badhtml = ""
+	# 	#if get
+	# 	if method == "GET":
+	# 		getURL = url + "?" + paramname+"="+falsePayload
+	# 		content = requests.get(getURL)
+	# 		badhtml =  content.text
+	# 	#if post
+	# 	elif method == "POST":
+	# 		content = requests.post(url, data={paramname:falsePayload})
+	# 		badhtml = content.text
 
-		compare_res = sqli.compare_html(badhtml, html)		
-		match = re.findall(r'<ins>.+', compare_res)
+	# 	compare_res = sqli.compare_html(badhtml, html)		
+	# 	match = re.findall(r'<ins>.+', compare_res)
+	# 	if len(match) ==0 :
+	# 		return None
+	# 	return None
+	"""
+	# Add another true page to remove false positive
+	# Commented for now
+	if attackType == sql_injection:
+		## for real sql injection, the payloads should return the same result
+		## then compare the fake page with the true page to see the difference
+		falsePayloads = sqli.get_false()
+		badhtml = []
+		for falsePayload in falsePayloads:
+			#if get
+			if method == "GET":
+				getURL = url + "?" + paramname+"="+falsePayload
+				false_page = requests.get(getURL)
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+				else:
+					badhtml.append(requests.get(url).text)
+			#if post
+			elif method == "POST":
+				false_page = requests.post(url, data={paramname:falsePayload})
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+					# print(html)
+				else:
+					badhtml.append(requests.get(url).text)
+
+		if(content.status_code==200) and badhtml[1]==html:
+			compare_res = sqli.compare_html(badhtml[0], html)  
+			match = re.findall(r'<ins>.+', compare_res)
+
+		else:
+			match = ""
 		if len(match) ==0 :
 			return None
-		return None
+
+		return match
+
 
 	#====== check for open_redirect=======
 	if attackType == open_redirect:
@@ -132,16 +171,33 @@ def get_payloads(v=False):
 
 
 if __name__ == "__main__":
-	get_payloads(v=True)
+	# get_payloads(v=True)
+
+	
+	## check all pages
+	payloads = get_payloads()
+	url_list = ['/directorytraversal/directorytraversal.php',
+				"/commandinjection/commandinjection.php",
+				"/sqli/sqli.php",
+				"/serverside/eval2.php",
+				"/openredirect/openredirect.php"]
+	for payload in payloads:
+		injectPayload(url_list[0],  'GET','ascii', payload)
+		injectPayload(url_list[1], 'POST', "host", payload)
+		injectPayload(url_list[2],  "POST", "username", payload)
+		injectPayload(url_list[3],  "POST", "page", payload)
+		injectPayload(url_list[4],  "GET", "redirect", payload)
+
+	
 
 	## test directory shell
-    # url = '/directorytraversal/directorytraversal.php'
-    # payloads = dirtraversal.get_all()
+	# url = '/directorytraversal/directorytraversal.php'
+	# payloads = dirtraversal.get_all()
 
-    # for payload in payloads:
-    #     ## need param after endpoint ?param=
-        
-    #     injectPayload(url, 'ascii', 'GET', payload)
+	# for payload in payloads:
+	#     ## need param after endpoint ?param=
+		
+	#     injectPayload(url, 'ascii', 'GET', payload)
 
 
 	# ## test shell command
@@ -168,5 +224,5 @@ if __name__ == "__main__":
 	url = "/openredirect/openredirect.php"
 	orPayload = oRedirect.get_all()
 	for payload in orPayload:
-	 	injectPayload(url, "redirect", "GET", payload)
+		injectPayload(url, "redirect", "GET", payload)
 	'''

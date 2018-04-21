@@ -194,15 +194,15 @@ def get_payloads(v=False):
 if __name__ == "__main__":
     # get_payloads(v=True)
 
-    payloads = get_payloads()
+    payloads = sqli.get_all()
     url_list = ['/directorytraversal/directorytraversal.php',
                 "/commandinjection/commandinjection.php",
                 "/sqli/sqli.php",
                 "/serverside/eval2.php",
                 "/openredirect/openredirect.php"]
     for payload in payloads:
-        injectPayload(url_list[0], 'ascii', 'GET', payload)
-        injectPayload(url_list[1], "host", 'POST', payload)
+        # injectPayload(url_list[0], 'ascii', 'GET', payload)
+        # injectPayload(url_list[1], "host", 'POST', payload)
         injectPayload(url_list[2], "username", "POST", payload)
         injectPayload(url_list[3], "page", "POST", payload)
         injectPayload(url_list[4], "redirect", "GET", payload)
