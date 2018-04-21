@@ -31,7 +31,7 @@ class MyItem(Item):
     action_url = Field()
     forms = Field()
     get_url = Field()
-
+    endpoint_result = Field()
 
 
 class ExampleSpider(CrawlSpider):
@@ -73,15 +73,38 @@ class ExampleSpider(CrawlSpider):
                 if (get_params_for_get_url):
                     # print "INSIDE"
 
-                    print get_request_url
-                    print get_params_for_get_url
+                    # print "IN GET"
+                    # print response
+                    # print "IN GET DONE"
+                    # print get_request_url
+                    # print get_params_for_get_url
+                    endpoint = urlparse(get_request_url).path
 
+                    param = get_params_for_get_url
+                    method = "GET"
+                    endpoint_result = []
+                    endpoint_result.append(
+                        {
+                        'endpoint' : endpoint,
+                        'param' : param,
+                        'method' : method
+                        }
+                    )
 
+                    # yield{
+                    #      "endpoint": endpoint,
+                    #     "param": param,
+                    #     "get_post" : method
+                    # }
                 else:
                     pass
             # print "WTH"
 
-        else:
+        elif(response.css('form')):
+            # print "IN ELIF"
+            # print response
+            # print "IN ELIF"
+
 
             # print "KNS"
 
@@ -125,6 +148,8 @@ class ExampleSpider(CrawlSpider):
                 pass
 
 
+
+
             # if(response.css('form')):
             #     # for i in len(response.css('form')):
             #     # for i in
@@ -162,29 +187,83 @@ class ExampleSpider(CrawlSpider):
 
 
 
-
-                    form_values['form'] = value
-                    form_values['action'] = action
-                    form_values['form_method'] = method
-                    form_values['overall_method'] = methods
-                    form_values['inputs'] = inputs
+                    #
+                    # form_values['form'] = value
+                    # form_values['action'] = action
+                    # form_values['form_method'] = method
+                    # form_values['overall_method'] = methods
+                    # form_values['inputs'] = inputs
                     # form_values['inputs'] = {'name': inputs_name if inputs_name else '', 'value': inputs_value if inputs_value else ''}
                     forms.append(form_values)
             else:
                 value = ''
 
-            yield {
-                "endpoint": parsed.path,
-                "forms": forms,
-                "url": response.url,
-                "post_params": post_params,
-                "headers": response.headers,
-                "cookies":response.headers.getlist('Set-Cookie'),
-                "request": response.request,
-                "get_post": methods,
-                "meta": response.meta,
-                "input_post_params": value
-                # "get_url" : get_url,
-                # "get_params": get_params_for_get_url
+            ### PARAMS #########
 
-            }
+            endpoint = response.url
+            param = post_params
+            method = "POST"
+            endpoint_result = []
+            endpoint_result.append({
+                'endpoint' : endpoint,
+                'param' : param,
+                'method' : method
+                }
+            )
+            # yield{
+            #      "endpoint": endpoint,
+            #     "param": param,
+            #     "get_post" : method
+            # }
+        else:
+            # endpoint = ""
+            # param = ""
+            # method = ""
+            pass
+
+
+            # print "in ELSE"
+            # print response
+            # print "in end of  ELSE"
+
+
+
+            ####################
+            # yield {
+            #     "endpoint": parsed.path,
+            #     "forms": forms,
+            #     "url": response.url,
+            #     "post_params": post_params,
+            #     "headers": response.headers,
+            #     "cookies":response.headers.getlist('Set-Cookie'),
+            #     "request": response.request,
+            #     "get_post": methods,
+            #     "meta": response.meta,
+            #     "input_post_params": value
+            #     # "get_url" : get_url,
+            #     # "get_params": get_params_for_get_url
+            #
+            # }
+        print endpoint_result
+        # yield {
+        #     "endpoint_result" : endpoint_result
+        #     # "endpoint": endpoint,
+        #     # "param": param,
+        #     # "get_post" : method
+        #
+        #     # "param": param
+        #     # "endpoint": parsed.path
+        #     # "forms": forms,
+        #     # "url": response.url,
+        #     # "post_params": post_params,
+        #     # "headers": response.headers,
+        #     # "cookies":response.headers.getlist('Set-Cookie'),
+        #     # "request": response.request,
+        #     # "get_post": methods,
+        #     # "meta": response.meta,
+        #     # "input_post_params": value
+        #
+        #     # "get_url" : get_url,
+        #     # "get_params": get_params_for_get_url
+        #
+        # }
