@@ -1,6 +1,18 @@
 import difflib
 import uuid
 
+"""
+Solutions:
+1. compare pages only  
+match = re.findall(r'<pre>', html)
+
+2. add false page to compare
+match = re.findall(r'<ins>.+', compare_res)
+
+3. add another label "' or '1'='1" as ground truth
+Assumption: should be the same page for sql injection, different with false page
+"""
+
 def get_false():
 	## the second is taken as ground truth to filter out real sql-injection page
 	payloads = ["' and '1=2", "' or '1'='1"]

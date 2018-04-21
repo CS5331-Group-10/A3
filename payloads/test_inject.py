@@ -29,11 +29,11 @@ class AutoDict(dict):
             return value
 
 final_output=[]
-vlu_list = []
-vlu_class = AutoDict()
+vul_list = []
+vul_classes = AutoDict()
 
-def format_vlu_list():
-    sorted_list = sorted(vlu_list, key=lambda x: x[2][1])
+def format_vul_list():
+    sorted_list = sorted(vul_list, key=lambda x: x[2][1])
     print(sorted_list)
 
 ## write to json file if possible
@@ -45,8 +45,8 @@ def write_file(url, paramname, payload, method):
     sub_elements['params']['key1']= payload[0]
     sub_elements['method'] = method
     # update current dict
-    if(vlu_class.get('class')==payload[1]):
-        lists = vlu_class['results'][BASE_URL]
+    if(vul_classes.get('class')==payload[1]):
+        lists = vul_classes['results'][BASE_URL]
 
         for ele in lists:
             if (ele['endpoint'] == url) and (ele['params']['key1']==payload[0]) and (ele['method']==method) :
@@ -54,12 +54,12 @@ def write_file(url, paramname, payload, method):
             else:
                 lists.append(sub_elements)
          
-        vlu_class['results'][BASE_URL]=lists
+        vul_classes['results'][BASE_URL]=lists
 
     else:
-        vlu_class['class'] = payload[1]        
+        vul_classes['class'] = payload[1]        
         lists.append(sub_elements)
-        vlu_class['results'][BASE_URL]=lists
+        vul_classes['results'][BASE_URL]=lists
 
 
 
@@ -83,7 +83,7 @@ def injectPayload(url, paramname, method, payload, verbose = False):
     #if function returns:
     if result is not None:
         print(url, payload)
-        vlu_list.append([url, paramname, payload, method])
+        vul_list.append([url, paramname, payload, method])
 
         #generateExploit(parsedURL, method, paramname, payload)
         return True
@@ -194,15 +194,15 @@ def get_payloads(v=False):
 if __name__ == "__main__":
     # get_payloads(v=True)
 
-    payloads = get_payloads()
+    payloads = sqli.get_all()
     url_list = ['/directorytraversal/directorytraversal.php',
                 "/commandinjection/commandinjection.php",
                 "/sqli/sqli.php",
                 "/serverside/eval2.php",
                 "/openredirect/openredirect.php"]
     for payload in payloads:
-        injectPayload(url_list[0], 'ascii', 'GET', payload)
-        injectPayload(url_list[1], "host", 'POST', payload)
+        # injectPayload(url_list[0], 'ascii', 'GET', payload)
+        # injectPayload(url_list[1], "host", 'POST', payload)
         injectPayload(url_list[2], "username", "POST", payload)
         injectPayload(url_list[3], "page", "POST", payload)
         injectPayload(url_list[4], "redirect", "GET", payload)

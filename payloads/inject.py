@@ -39,8 +39,6 @@ def injectPayload(url, method, paramname, payload, verbose = False):
 	
 	#if function returns:
 	if result is not None:
-		if verbose==True:
-			print payload[0]
 		return True
 	return None
 
@@ -84,13 +82,15 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 		return match
 
 	#===== check for sql_injection ======
+	# Add another true page to remove false positive
+	# Commented for now
 	if attackType == sql_injection:
-        ## for real sql injection, the payloads should return the same result
-        ## then compare the fake page with the true page to see the difference
+		## for real sql injection, the payloads should return the same result
+		## then compare the fake page with the true page to see the difference
 		falsePayloads = sqli.get_false()
-        #if get
 		badhtml = []
 		for falsePayload in falsePayloads:
+			#if get
 			if method == "GET":
 				getURL = url + "?" + paramname+"="+falsePayload
 				false_page = requests.get(getURL)
@@ -98,12 +98,10 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 					badhtml.append(false_page.text)
 				else:
 					badhtml.append(requests.get(url).text)
-            #if post
 			elif method == "POST":
 				false_page = requests.post(url, data={paramname:falsePayload})
 				if(false_page.status_code==200):
 					badhtml.append(false_page.text)
-				# print(html)
                 else:
                     badhtml.append(requests.get(url).text)
 
@@ -117,6 +115,7 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 			return None
 
 		return True
+
 
 	#====== check for open_redirect=======
 	if attackType == open_redirect:
@@ -149,39 +148,17 @@ def get_payloads(v=False):
 
 if __name__ == "__main__":
 
-	## test directory shell
-    # url = '/directorytraversal/directorytraversal.php'
-    # payloads = dirtraversal.get_all()
-
-    # for payload in payloads:
-    #     ## need param after endpoint ?param=
-        
-    #     injectPayload(url, 'ascii', 'GET', payload)
-
-
-	# ## test shell command
-	# ## post in the form
-	# url = "/commandinjection/commandinjection.php"
-	# payloads = cmd.get_all()
-	# for payload in payloads:
-	# 	injectPayload(url, "host", 'POST', payload)
-
-	#sqli
-	# post in the form
-	url = "/sqli/sqli.php"
-	payloads = sqli.get_all()
+	
+	## check all pages
+	payloads = get_payloads()
+	url_list = ['/directorytraversal/directorytraversal.php',
+				"/commandinjection/commandinjection.php",
+				"/sqli/sqli.php",
+				"/serverside/eval2.php",
+				"/openredirect/openredirect.php"]
 	for payload in payloads:
-		injectPayload(url, "POST", "username", payload, verbose=True)
-
-	#Test for server side code injection
-	# url = "/serverside/eval2.php"
-	# payloads = ssci.get_all(url)
-	# for payload in payloads:
-	# 	injectPayload(url, "page", "POST", payload)
-	'''
-	#test for open redirect
-	url = "/openredirect/openredirect.php"
-	orPayload = oRedirect.get_all()
-	for payload in orPayload:
-	 	injectPayload(url, "redirect", "GET", payload)
-	'''
+		injectPayload(url_list[0],  'GET','ascii', payload)
+		injectPayload(url_list[1], 'POST', "host", payload)
+		injectPayload(url_list[2],  "POST", "username", payload)
+		injectPayload(url_list[3],  "POST", "page", payload)
+		injectPayload(url_list[4],  "GET", "redirect", payload)
