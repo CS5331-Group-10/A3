@@ -6,4 +6,5 @@ payloads = [(';uname -a', 'Shell Command Injection'), ("' or '1=1", 'SQL Injecti
 for i in range(len(payloads)):
   (a,b) = payloads[i]
   escapedChar = re.escape(a)
+  print "\""+a+"\""
   print "\""+escapedChar+"\""
