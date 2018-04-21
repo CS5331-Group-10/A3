@@ -150,13 +150,21 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
                     # print(html)
                 else:
                     badhtml.append(requests.get(url).text)
-
-        if(content.status_code==200) and badhtml[1]==html:
-            compare_res = sqli.compare_html(badhtml[0], html)  
+        if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
+            ## true filter should be two
+            compare_res = sqli.compare_html(badhtml[2], html)  
             match = re.findall(r'<ins>.+', compare_res)
-
+        elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
+            compare_res = sqli.compare_html(badhtml[1], html)  
+            match = re.findall(r'<ins>.+', compare_res)
         else:
             match = ""
+        # if(content.status_code==200) and badhtml[1]==html:
+        #     compare_res = sqli.compare_html(badhtml[0], html)  
+        #     match = re.findall(r'<ins>.+', compare_res)
+
+        # else:
+        #     match = ""
         if len(match) ==0 :
             return None
 
@@ -201,8 +209,8 @@ if __name__ == "__main__":
                 "/serverside/eval2.php",
                 "/openredirect/openredirect.php"]
     for payload in payloads:
-        # injectPayload(url_list[0], 'ascii', 'GET', payload)
-        # injectPayload(url_list[1], "host", 'POST', payload)
+        injectPayload(url_list[0], 'ascii', 'GET', payload)
+        injectPayload(url_list[1], "host", 'POST', payload)
         injectPayload(url_list[2], "username", "POST", payload)
         injectPayload(url_list[3], "page", "POST", payload)
         injectPayload(url_list[4], "redirect", "GET", payload)
