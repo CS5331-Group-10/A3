@@ -4,7 +4,7 @@ import json
 
 json_data = open("result.json","r")
 data = json.load(json_data)
-target = "http://target.com"
+target = ij.BASE_URL
 
 #READ JSON
 epList = list()
@@ -13,7 +13,6 @@ for b in data:
 	ep = b["endpoint"], b["get_post"], b["get_params"], b["post_params"]
 	epList.append(ep)
 
-epList=list(set(epList))
 
 #READ PAYLOADs
 payloads = ij.get_payloads()
@@ -72,32 +71,4 @@ for payload in payloads:
 						})		
 
 
-print json.dumps(listExploits)
-
-def timeid(full=False):
-	if full==False:
-		return datetime.now().strftime("%S-%f")
-	else:
-		return datetime.now().strftime("%H-%M-%S-%f") 
-
-def generateExploit(url, method, paramname, payload):
-#payload is a "payload, type_of_payload" list
-
-	dirname = "exploits/"
-	if not os.path.exists(dirname):
-		os.makedirs(dirname)
-
-	copy("exploit.py", dirname)
-
-	f = open(dirname + payload[1] + "_" + timeid() + ".sh","w+")
-	f.write("python exploit.py " + '"' + url +'" ' + method + " "+ paramname + ' "' +payload[0]+'"')
-	
-
-
-
-#for each endpoint in JSON, get ENDPOINT, PARAMS, METHOD [TBC: Zishan]
-	#for each payload, [TBC: Zhizhong]
-		#run injectPayload(url, paramname, method, payload) [DONE]	
-		#currently, this code prints out the payload if successful, and writes a 		dummy .sh file [TBC: Jason]
-
-#Once above is all completed, consolidate result in a .JSON file [TBC: WY]
+print json.dumps(listExploits, indent=4)
