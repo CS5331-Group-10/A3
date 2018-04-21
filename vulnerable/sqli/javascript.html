@@ -1,0 +1,31 @@
+<html>
+
+<body>
+<h1>User Directory</h1>
+
+
+
+Search for user:
+<form id="directory" method="POST">
+    <input type="text" name="username" id="username"/>
+    <input type="submit" id="submit" />
+</form>
+
+//do ajax post here to /sqli.php
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+$('#submit').on('click',function(){
+		
+	var usernameVar = document.getElementById("username").value;
+	var formData = '{\"username\": \"' + usernameVar + '\" }';
+	$.post("http://target.com/sqli/sqli.php",formData).done(function(data){alert(data);});
+	
+});
+</script>
+
+
+
+</body>
+</html>
