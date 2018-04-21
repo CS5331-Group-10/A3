@@ -39,6 +39,7 @@ def injectPayload(url, method, paramname, payload, verbose = False):
 	
 	#if function returns:
 	if result is not None:
+		print(url, payload)
 		return True
 	return None
 
@@ -81,16 +82,13 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 			return None
 		return match
 
-	#===== check for sql_injection ======
-	# Add another true page to remove false positive
-	# Commented for now
 	if attackType == sql_injection:
 		## for real sql injection, the payloads should return the same result
 		## then compare the fake page with the true page to see the difference
 		falsePayloads = sqli.get_false()
+		#if get
 		badhtml = []
 		for falsePayload in falsePayloads:
-			#if get
 			if method == "GET":
 				getURL = url + "?" + paramname+"="+falsePayload
 				false_page = requests.get(getURL)
@@ -98,23 +96,33 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 					badhtml.append(false_page.text)
 				else:
 					badhtml.append(requests.get(url).text)
+			#if post
 			elif method == "POST":
 				false_page = requests.post(url, data={paramname:falsePayload})
 				if(false_page.status_code==200):
 					badhtml.append(false_page.text)
-                else:
-                    badhtml.append(requests.get(url).text)
-
-		if(content.status_code==200) and badhtml[1]==html:
-			compare_res = sqli.compare_html(badhtml[0], html)  
+					# print(html)
+				else:
+					badhtml.append(requests.get(url).text)
+		if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
+			## true filter should be two
+			compare_res = sqli.compare_html(badhtml[2], html)  
+			match = re.findall(r'<ins>.+', compare_res)
+		elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
+			compare_res = sqli.compare_html(badhtml[1], html)  
 			match = re.findall(r'<ins>.+', compare_res)
 		else:
 			match = ""
-        
-		if len(match) ==0: 
+		# if(content.status_code==200) and badhtml[1]==html:
+		#     compare_res = sqli.compare_html(badhtml[0], html)  
+		#     match = re.findall(r'<ins>.+', compare_res)
+
+		# else:
+		#     match = ""
+		if len(match) ==0 :
 			return None
 
-		return True
+		return match
 
 
 	#====== check for open_redirect=======
