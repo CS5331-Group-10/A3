@@ -11,7 +11,7 @@ from datetime import datetime
 import difflib
 
 
-BASE_URL = "http://target.com"
+BASE_URL = "http://target.com/"
 sql_injection = "SQL Injection"
 server_injection = "Server Side Code Injection"
 directory_traversal = "Directory Traversal"
@@ -22,7 +22,7 @@ shell_command = "Shell Command Injection"
 def injectPayload(url, method, paramname, payload, verbose = False):
 	parsedURL = BASE_URL + url	
 	html = ""
-
+	method = method.upper()
 	#if get
 	if method == "GET":
 		getURL = parsedURL + "?" + paramname+"="+payload[0]
@@ -39,35 +39,26 @@ def injectPayload(url, method, paramname, payload, verbose = False):
 	
 	#if function returns:
 	if result is not None:
-		print(url, payload)
+		#print(url, payload)
 		return True
 	return None
 
-def timeid(full=False):
-	if full==False:
-		return datetime.now().strftime("%S-%f")
-	else:
-		return datetime.now().strftime("%H-%M-%S-%f") 
 
-def generateExploit(url, method, paramname, payload):
-#payload is a "payload, type_of_payload" list
-
-	dirname = "exploits/"
-	if not os.path.exists(dirname):
-		os.makedirs(dirname)
-
-	copy("exploit.py", dirname)
-
-	f = open(dirname + payload[1] + "_" + timeid() + ".sh","w+")
-	f.write("python exploit.py " + '"' + url +'" ' + method + " "+ paramname + ' "' +payload[0]+'"')
-	
-
+def getId(expClass):
+	if expClass == sql_injection:
+		return 0
+	elif expClass == server_injection:
+		return 1
+	elif expClass == directory_traversal:
+		return 2
+	elif expClass == open_redirect:
+		return 3
+	elif expClass == cross_site_request_forgery:
+		return 4
+	elif expClass == shell_command:
+		return 5
 
 def checkSuccess(html, attackType, content, url, method, paramname, v=False):
-	if v == True:
-		a=1
-		#print html
-
 	#===== check for directory traversal =====
 	if attackType == directory_traversal:
 		match = re.findall(r'\w*\:\w\:[0-9]*\:[0-9]*\:[a-zA-Z_-]*\:[\/a-zA-Z0-9]*[ \t]?:[\/a-zA-Z0-9]*', html)
@@ -168,5 +159,5 @@ if __name__ == "__main__":
 		injectPayload(url_list[0],  'GET','ascii', payload)
 		injectPayload(url_list[1], 'POST', "host", payload)
 		injectPayload(url_list[2],  "POST", "username", payload)
-		injectPayload(url_list[3],  "POST", "page", payload)
+		injectPayload(url_list[3],  "post", "page", payload)
 		injectPayload(url_list[4],  "GET", "redirect", payload)

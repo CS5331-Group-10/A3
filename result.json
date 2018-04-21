@@ -1,9 +1,13 @@
-[{'endpoint': 'http://target.com/csrf/csrf.php', 'method': 'POST', 'param': [u'secret', u'csrftoken']}]
-[{'endpoint': 'http://target.com/serverside/eval.php', 'method': 'POST', 'param': [u'page']}]
-[{'endpoint': '/serverside/rfi.php', 'method': 'GET', 'param': ['page']}]
-[{'endpoint': '/serverside/lfi2.php', 'method': 'GET', 'param': ['page']}]
-[{'endpoint': '/serverside/lfi1.php', 'method': 'GET', 'param': ['page']}]
-[{'endpoint': 'http://target.com/commandinjection/commandinjection.php', 'method': 'POST', 'param': [u'host']}]
-[{'endpoint': '/directorytraversal/directorytraversal.php', 'method': 'GET', 'param': ['ascii']}]
-[{'endpoint': '/openredirect/openredirect.php', 'method': 'GET', 'param': ['redirect']}]
-[{'endpoint': 'http://target.com/sqli/sqli.php', 'method': 'POST', 'param': [u'username']}]
+[
+{"endpoints": [{"cookies": "", "endpoint": "/serverside/lfi1.php", "method": "GET", "param": ["page"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/serverside/eval.php", "method": "get", "value": ["submit"], "param": ["page"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "doublesqliaction.php", "method": "POST", "value": "", "param": ["username"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/sqli/sqli.php", "method": "POST", "value": "", "param": ["username"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/commandinjection/commandinjection.php", "method": "POST", "value": ["google.com"], "param": ["host"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "param": ["ascii"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/openredirect/openredirect.php", "method": "GET", "param": ["redirect"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "eval2.php", "method": "get", "value": ["submit"], "param": ["page"]}, {"cookies": "", "endpoint": "eval2.php", "method": "get", "value": ["submit"], "param": ["page"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/csrf/csrf.php", "method": "POST", "value": ["SECRET", "abcdef1235"], "param": ["secret", "csrftoken"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/serverside/rfi.php", "method": "GET", "param": ["page"]}]},
+{"endpoints": [{"cookies": "", "endpoint": "/serverside/lfi2.php", "method": "GET", "param": ["page"]}]}
+]
