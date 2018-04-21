@@ -21,6 +21,7 @@ class MyItem(Item):
     value = Field()
     endpoint = Field()
     endpoints = Field()
+    cookies = Field()
     # url= Field()
     # get_params = Field()
     # post_params = Field()
@@ -56,6 +57,13 @@ class ExampleSpider(CrawlSpider):
         # print response
         parsed = urlparse(response.url)
         endpoint_result = []
+
+        cookies = response.headers.getlist('Set-Cookie')
+        if cookies:
+            item['cookies'] = response.headers.getlist('Set-Cookie')
+            item['method'] = 'Cookie'
+        else:
+            item['cookies'] =''
 
         ### ALL THE GET URL #####
         all_links = response.xpath('*//a/@href').extract()
