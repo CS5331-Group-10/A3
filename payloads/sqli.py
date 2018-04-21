@@ -1,14 +1,15 @@
 import difflib
+import uuid
 
 def get_false():
 	## the second is taken as ground truth to filter out real sql-injection page
 	payloads = ["' and '1=2", "' or '1'='1"]
 	return payloads
+''''
 
-# def get_false():
-# 	payloads = "' and '1=2"
-# 	return payloads
-
+def get_false():
+	return [str(uuid.uuid4())]
+'''
 def get_all():
 	"""
 	Consider different db types and versions

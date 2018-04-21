@@ -39,7 +39,8 @@ def injectPayload(url, method, paramname, payload, verbose = False):
 	
 	#if function returns:
 	if result is not None:
-		#generateExploit(parsedURL, method, paramname, payload)
+		if verbose==True:
+			print payload[0]
 		return True
 	return None
 
@@ -65,7 +66,8 @@ def generateExploit(url, method, paramname, payload):
 
 def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 	if v == True:
-		print html
+		a=1
+		#print html
 
 	#===== check for directory traversal =====
 	if attackType == directory_traversal:
@@ -83,24 +85,38 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 
 	#===== check for sql_injection ======
 	if attackType == sql_injection:
-		
-		falsePayload = sqli.get_false()[0]
-		badhtml = ""
-		#if get
-		if method == "GET":
-			getURL = url + "?" + paramname+"="+falsePayload
-			content = requests.get(getURL)
-			badhtml =  content.text
-		#if post
-		elif method == "POST":
-			content = requests.post(url, data={paramname:falsePayload})
-			badhtml = content.text
+        ## for real sql injection, the payloads should return the same result
+        ## then compare the fake page with the true page to see the difference
+		falsePayloads = sqli.get_false()
+        #if get
+		badhtml = []
+		for falsePayload in falsePayloads:
+			if method == "GET":
+				getURL = url + "?" + paramname+"="+falsePayload
+				false_page = requests.get(getURL)
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+				else:
+					badhtml.append(requests.get(url).text)
+            #if post
+			elif method == "POST":
+				false_page = requests.post(url, data={paramname:falsePayload})
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+				# print(html)
+                else:
+                    badhtml.append(requests.get(url).text)
 
-		compare_res = sqli.compare_html(badhtml, html)		
-		match = re.findall(r'<ins>.+', compare_res)
-		if len(match) ==0 :
+		if(content.status_code==200) and badhtml[1]==html:
+			compare_res = sqli.compare_html(badhtml[0], html)  
+			match = re.findall(r'<ins>.+', compare_res)
+		else:
+			match = ""
+        
+		if len(match) ==0: 
 			return None
-		return None
+
+		return True
 
 	#====== check for open_redirect=======
 	if attackType == open_redirect:
@@ -132,7 +148,6 @@ def get_payloads(v=False):
 
 
 if __name__ == "__main__":
-	get_payloads(v=True)
 
 	## test directory shell
     # url = '/directorytraversal/directorytraversal.php'
@@ -153,10 +168,10 @@ if __name__ == "__main__":
 
 	#sqli
 	# post in the form
-	#url = "/sqli/sqli.php"
-	#payloads = sqli.get_all()
-	#for payload in payloads:
-	#	injectPayload(url, "username", "POST", payload)
+	url = "/sqli/sqli.php"
+	payloads = sqli.get_all()
+	for payload in payloads:
+		injectPayload(url, "POST", "username", payload, verbose=True)
 
 	#Test for server side code injection
 	# url = "/serverside/eval2.php"
