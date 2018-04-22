@@ -1,13 +1,216 @@
 [
-{"endpoints": [{"cookies": "", "endpoint": "/serverside/lfi1.php", "method": "GET", "param": ["page"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/serverside/eval.php", "method": "get", "value": ["submit"], "param": ["page"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "doublesqliaction.php", "method": "POST", "value": "", "param": ["username"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/sqli/sqli.php", "method": "POST", "value": "", "param": ["username"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/commandinjection/commandinjection.php", "method": "POST", "value": ["google.com"], "param": ["host"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "param": ["ascii"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/openredirect/openredirect.php", "method": "GET", "param": ["redirect"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "eval2.php", "method": "get", "value": ["submit"], "param": ["page"]}, {"cookies": "", "endpoint": "eval2.php", "method": "get", "value": ["submit"], "param": ["page"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/csrf/csrf.php", "method": "POST", "value": ["SECRET", "abcdef1235"], "param": ["secret", "csrftoken"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/serverside/rfi.php", "method": "GET", "param": ["page"]}]},
-{"endpoints": [{"cookies": "", "endpoint": "/serverside/lfi2.php", "method": "GET", "param": ["page"]}]}
+  {
+    "endpoints": [
+      {
+        "endpoint": "/sqli/sqli.php",
+        "method": "POST",
+        "value": "",
+        "param": [
+          "username"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/serverside/eval.php",
+        "param": [
+          "page"
+        ],
+        "value": [
+          "submit"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/commandinjection/commandinjection.php",
+        "method": "POST",
+        "value": [
+          "google.com"
+        ],
+        "param": [
+          "host"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/directorytraversal/directorytraversal.php",
+        "method": "GET",
+        "param": [
+          "ascii"
+        ]
+      },
+      {
+        "endpoint": "/directorytraversal/directorytraversal.php",
+        "method": "GET",
+        "param": [
+          "ascii"
+        ]
+      },
+      {
+        "endpoint": "/directorytraversal/directorytraversal.php",
+        "method": "GET",
+        "param": [
+          "wee"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/openredirect/openredirect.php",
+        "method": "GET",
+        "param": [
+          "redirect"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/sqli/javascript.html",
+        "method": "POST",
+        "value": "",
+        "param": [
+          "username"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/csrf/csrf.php",
+        "method": "POST",
+        "value": [
+          "SECRET",
+          "abcdef1235"
+        ],
+        "param": [
+          "secret",
+          "csrftoken"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/serverside/rfi.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/rfi.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/rfi.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/serverside/lfi2.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/lfi2.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/lfi2.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "/serverside/lfi1.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/lfi1.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/lfi1.php",
+        "method": "GET",
+        "param": [
+          "page"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "doublesqliaction.php",
+        "method": "POST",
+        "value": "",
+        "param": [
+          "username"
+        ]
+      }
+    ]
+  },
+  {
+    "endpoints": [
+      {
+        "endpoint": "eval2.php",
+        "method": "post",
+        "value": [
+          "submit"
+        ],
+        "param": [
+          "page"
+        ]
+      },
+      {
+        "endpoint": "/serverside/eval2.php",
+        "method": "get",
+        "value": [
+          "submit"
+        ],
+        "param": [
+          "page"
+        ]
+      }
+    ]
+  }
 ]

@@ -21,7 +21,6 @@ class MyItem(Item):
     value = Field()
     endpoint = Field()
     endpoints = Field()
-    cookies = Field()
     # url= Field()
     # get_params = Field()
     # post_params = Field()
@@ -60,18 +59,18 @@ class ExampleSpider(CrawlSpider):
 
         cookies = response.headers.getlist('Set-Cookie')
         if cookies:
-            item['cookies'] = response.headers.getlist('Set-Cookie')
             item['method'] = 'Cookie'
         else:
-            item['cookies'] =''
+            pass
 
         ### ALL THE GET URL #####
         all_links = response.xpath('*//a/@href').extract()
         # print all_links
         if all_links:
-
+            list_form = []
 
             for href in all_links:
+                item = MyItem()
                 request =  response.follow(url=href, callback=self.parse_url)
 
                 # request.meta['from'] = response.url
@@ -83,13 +82,7 @@ class ExampleSpider(CrawlSpider):
 
 
                 if (get_params_for_get_url):
-                    # print "INSIDE"
 
-                    # print "IN GET"
-                    # print response
-                    # print "IN GET DONE"
-                    # print get_request_url
-                    # print get_params_for_get_url
                     endpoint = urlparse(get_request_url).path
 
                     param = get_params_for_get_url
@@ -97,6 +90,12 @@ class ExampleSpider(CrawlSpider):
                     item['endpoint'] = endpoint
                     item['param'] = param
                     item['method'] = method
+                    list_form.append(item)
+
+                else:
+                    return
+
+
                     # return item
                     # endpoint_result.append(
                     #     {
@@ -111,9 +110,9 @@ class ExampleSpider(CrawlSpider):
                     #     "param": param,
                     #     "get_post" : method
                     # }
-                else:
-                    return
+
             # print "WTH"
+            # item = list_get
 
         elif(response.css('form')):
             endpoint =parsed.path
@@ -124,7 +123,9 @@ class ExampleSpider(CrawlSpider):
             list_form =[]
             # print response.xpath('//form')
             for form in (response.xpath('//form')):
-
+                item = MyItem()
+                endpoint =parsed.path
+                item['endpoint'] = endpoint
                 for form_method in form.xpath('.//@method'):
                     method = form_method.extract()
                     item['method'] = method
@@ -152,7 +153,7 @@ class ExampleSpider(CrawlSpider):
 
 
                 list_form.append(item)
-            item = list_form
+            # item = list_form
             # return list_form
                 # print item
                 # return list_form
@@ -290,7 +291,7 @@ class ExampleSpider(CrawlSpider):
             #
             # }
         yield{
-            "endpoints": item
+            "endpoints": list_form
         }
 
         # yield {
