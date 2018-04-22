@@ -6,10 +6,8 @@
 
 
 Search for user:
-<form id="directory" method="POST">
     <input type="text" name="username" id="username"/>
     <input type="submit" id="submit" />
-</form>
 
 //do ajax post here to /sqli.php
 
@@ -19,8 +17,10 @@ Search for user:
 $('#submit').on('click',function(){
 		
 	var usernameVar = document.getElementById("username").value;
-	var formData = '{\"username\": \"' + usernameVar + '\" }';
-	$.post("http://target.com/sqli/sqli.php",formData).done(function(data){alert(data);});
+	var formData = {username: usernameVar};
+	$.post("http://target.com/sqli/sqlibackend.php",formData).done(function(data){
+alert(data)
+});
 	
 });
 </script>
