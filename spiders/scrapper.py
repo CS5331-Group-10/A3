@@ -117,38 +117,69 @@ class ExampleSpider(CrawlSpider):
         elif(response.css('form')):
             endpoint =parsed.path
             item['endpoint'] = endpoint
-            param = ''
-            method = ''
-            value = ''
+            param = ['']
+            method = ['']
+            value = ['']
             list_form =[]
             # print response.xpath('//form')
             for form in (response.xpath('//form')):
                 item = MyItem()
                 endpoint =parsed.path
                 item['endpoint'] = endpoint
-                for form_method in form.xpath('.//@method'):
-                    method = form_method.extract()
+                if (form.xpath('.//@method')):
+                    method = form.xpath('.//@method')[0].extract()
                     item['method'] = method
+                else:
+                    item['method'] = 'GET'
+                # for form_method in form.xpath('.//@method'):
+                #     method = form_method.extract()
+                #     item['method'] = method
                 # Handle action methods ###
                 if (form.xpath('.//@action')):
                     actions = form.xpath('.//@action')[0].extract()
-                    endpoint = actions
-                    item['endpoint'] = endpoint
+                    # x = endpoint.split('/')
+                    #
+                    # url = "/".join(x[0: len(x)-1])
+                    item['endpoint'] = actions
                 else:
                     pass
 
+                if(form.xpath('.//input')):
+                    form_params = []
+                    form_values = []
+                    for form_inputs in form.xpath('.//input'):
+                        # print form_inputs.xpath('.//@type').extract()
+                        if (form_inputs.xpath('.//@type').extract() ==[u'hidden']):
 
-                if (form.xpath('.//input//@name')):
-                    post_params = form.xpath('.//input//@name').extract()
-                    param = post_params
-                    item['param'] = param
-                else:
-                    item['param'] = ''
-                if (form.xpath('.//input/@value')):
-                    value = form.xpath('.//input/@value').extract()
-                    item['value'] = value
-                else:
-                    item['value'] = ''
+                            form_name = form_inputs.xpath('.//@name').extract()
+
+                            form_name = form_name[0] + "hiddenPEST"
+                            form_value = form_inputs.xpath('.//@value').extract()
+                            form_value = form_value[0] +"hiddenPEST"
+                            form_params.append(form_name)
+                            form_values.append(form_value)
+                        elif (form_inputs.xpath('.//@type').extract() ==[u'text']):
+                            form_name = form_inputs.xpath('.//@name').extract()[0] if form_inputs.xpath('.//@name').extract() else ''
+                            form_value = form_inputs.xpath('.//@value').extract()[0] if form_inputs.xpath('.//@value').extract() else ''
+                            form_params.append(form_name)
+                            form_values.append(form_value)
+                        else:
+                            pass
+
+                    item['param'] = form_params
+                    item['value'] = form_values
+
+                # if (form.xpath('.//input//@name')):
+                #     post_params = form.xpath('.//input//@name').extract()
+                #     param = post_params
+                #     item['param'] = param
+                # else:
+                #     item['param'] = ['']
+                # if (form.xpath('.//input/@value')):
+                #     value = form.xpath('.//input/@value').extract()
+                #     item['value'] = value
+                # else:
+                #     item['value'] = ['']
 
 
 
@@ -290,6 +321,7 @@ class ExampleSpider(CrawlSpider):
             #     # "get_params": get_params_for_get_url
             #
             # }
+
         yield{
             "endpoints": list_form
         }
