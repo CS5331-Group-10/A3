@@ -35,7 +35,7 @@ def injectPayload(url, method, paramname, params, payload, verbose = False):
 		content = requests.post(parsedURL, data=params)
 	
 	html = content.text
-	result = checkSuccess(html, payload[1], content, parsedURL, method, paramname, verbose)
+	result = checkSuccess(html, payload, content, parsedURL, method, paramname, params,verbose)
 	
 	#if function returns:
 	if result is not None:
@@ -58,7 +58,8 @@ def getId(expClass):
 	elif expClass == shell_command:
 		return 5
 
-def checkSuccess(html, attackType, content, url, method, paramname, v=False):
+def checkSuccess(html, payload, content, url, method, paramname,params, v=False):
+	attackType = payload[1]
 	#===== check for directory traversal =====
 	if attackType == directory_traversal:
 		match = re.findall(r'\w*\:\w\:[0-9]*\:[0-9]*\:[a-zA-Z_-]*\:[\/a-zA-Z0-9]*[ \t]?:[\/a-zA-Z0-9]*', html)
@@ -73,47 +74,66 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 			return None
 		return match
 
-	if attackType == sql_injection:
+	if attackType == sql_injection and len(content.history) == 0:
+
+		params[paramname] = sqli.get_falsewy()
+		#if get
+		if method == "GET":
+			paramstr = "&".join("%s=%s" % (k,v) for k,v in params.items())
+			getURL = url + "?" + paramstr
+			falseContent = requests.get(getURL)
+		#if post
+		elif method == "POST":
+			falseContent = requests.post(url, data=params)
+
+		falsehtml = falseContent.text
+		falsehtml = falsehtml.replace(params[paramname],"")
+		html = html.replace(payload[0],"")
+
+		if falsehtml == html or len(falseContent.history)!=0 or abs(len(html)-len(falsehtml)) < 30:
+			return None
+		return True
+
 		## for real sql injection, the payloads should return the same result
 		## then compare the fake page with the true page to see the difference
-		falsePayloads = sqli.get_false()
+		#falsePayloads = sqli.get_false()
 		#if get
-		badhtml = []
-		for falsePayload in falsePayloads:
-			if method == "GET":
-				getURL = url + "?" + paramname+"="+falsePayload
-				false_page = requests.get(getURL)
-				if(false_page.status_code==200):
-					badhtml.append(false_page.text)
-				else:
-					badhtml.append(requests.get(url).text)
-			#if post
-			elif method == "POST":
-				false_page = requests.post(url, data={paramname:falsePayload})
-				if(false_page.status_code==200):
-					badhtml.append(false_page.text)
-					# print(html)
-				else:
-					badhtml.append(requests.get(url).text)
-		if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
-			## true filter should be two
-			compare_res = sqli.compare_html(badhtml[2], html)  
-			match = re.findall(r'<ins>.+', compare_res)
-		elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
-			compare_res = sqli.compare_html(badhtml[1], html)  
-			match = re.findall(r'<ins>.+', compare_res)
-		else:
-			match = ""
+		#badhtml = []
+		#for falsePayload in falsePayloads:
+		#	if method == "GET":
+		#		getURL = url + "?" + paramname+"="+falsePayload
+		#		false_page = requests.get(getURL)
+		#		if(false_page.status_code==200):
+		#			badhtml.append(false_page.text)
+		#		else:
+		#			badhtml.append(requests.get(url).text)
+		#	#if post
+		#	elif method == "POST":
+		#		false_page = requests.post(url, data={paramname:falsePayload})
+		#		if(false_page.status_code==200):
+		#			badhtml.append(false_page.text)
+		#			# print(html)
+		#		else:
+		#			badhtml.append(requests.get(url).text)
+		#if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
+		#	## true filter should be two
+		#	compare_res = sqli.compare_html(badhtml[2], html)  
+		#	match = re.findall(r'<ins>.+', compare_res)
+		#elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
+		#	compare_res = sqli.compare_html(badhtml[1], html)  
+		#	match = re.findall(r'<ins>.+', compare_res)
+		#else:
+		#	match = ""
 		# if(content.status_code==200) and badhtml[1]==html:
 		#     compare_res = sqli.compare_html(badhtml[0], html)  
 		#     match = re.findall(r'<ins>.+', compare_res)
 
 		# else:
 		#     match = ""
-		if len(match) ==0 :
-			return None
-
-		return match
+		#if len(match) ==0 :
+		#	return None
+		#
+		#return match
 
 
 	#====== check for open_redirect=======
@@ -123,7 +143,7 @@ def checkSuccess(html, attackType, content, url, method, paramname, v=False):
 
 	
 	#=======check for server_injection ====
-	if attackType == server_injection:
+	if attackType == server_injection and len(content.history) == 0 :
 		#included index.php
 		indexPHP = requests.get(BASE_URL + "/index.php")
 

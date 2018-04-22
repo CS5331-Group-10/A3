@@ -19,11 +19,11 @@ def get_false():
 	# payloads = ["' and '1=2", "' or '1'='1", '" or "1"="1']
 	payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
 	return payloads
-''''
 
-def get_false():
-	return [str(uuid.uuid4())]
-'''
+def get_falsewy():
+	return str(uuid.uuid4())
+
+
 def get_all():
 	"""
 	Consider different db types and versions

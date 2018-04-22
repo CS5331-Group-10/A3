@@ -40,7 +40,7 @@ class MyItem(Item):
 
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    start_urls = ['http://target.com']
+    start_urls = ['http://target.com/']
     custom_settings = {'REDRIRECT_ENABLED' : False }
     # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
 
@@ -78,7 +78,7 @@ class ExampleSpider(CrawlSpider):
                 get_request_url  = request.url
                 query_get_url = urlparse(get_request_url).query
                 get_params_for_get_url = parse_qs(query_get_url).keys()
-
+                get_values_for_get_url = parse_qs(query_get_url).values()
 
 
                 if (get_params_for_get_url):
@@ -90,6 +90,7 @@ class ExampleSpider(CrawlSpider):
                     item['endpoint'] = endpoint
                     item['param'] = param
                     item['method'] = method
+                    item['value'] = get_values_for_get_url
                     list_form.append(item)
 
                 else:
@@ -137,7 +138,12 @@ class ExampleSpider(CrawlSpider):
                 # Handle action methods ###
                 if (form.xpath('.//@action')):
                     actions = form.xpath('.//@action')[0].extract()
-                    # x = endpoint.split('/')
+                    if (actions[0:5] != "https" and actions[0:5] != "http:"):
+                        folder = endpoint.split('/')
+                        folder = "/".join(folder[0:len(folder)-1])
+                        actions = folder+"/"+actions
+					
+					# x = endpoint.split('/')
                     #
                     # url = "/".join(x[0: len(x)-1])
                     item['endpoint'] = actions
@@ -153,9 +159,9 @@ class ExampleSpider(CrawlSpider):
 
                             form_name = form_inputs.xpath('.//@name').extract()
 
-                            form_name = form_name[0] + "hiddenPEST"
+                            form_name = form_name[0] + "_hiddenPEST"
                             form_value = form_inputs.xpath('.//@value').extract()
-                            form_value = form_value[0] +"hiddenPEST"
+                            form_value = form_value[0]
                             form_params.append(form_name)
                             form_values.append(form_value)
                         elif (form_inputs.xpath('.//@type').extract() ==[u'text']):
