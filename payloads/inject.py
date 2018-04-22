@@ -11,7 +11,7 @@ from datetime import datetime
 import difflib
 
 
-BASE_URL = "http://target.com/"
+BASE_URL = "http://target.com"
 sql_injection = "SQL Injection"
 server_injection = "Server Side Code Injection"
 directory_traversal = "Directory Traversal"
@@ -19,27 +19,27 @@ open_redirect = "Open Redirect"
 cross_site_request_forgery = "Cross Site Request Forgery"
 shell_command = "Shell Command Injection"
 
-def injectPayload(url, method, paramname, payload, verbose = False):
+def injectPayload(url, method, paramname, params, payload, verbose = False):
 	parsedURL = BASE_URL + url	
 	html = ""
 	method = method.upper()
+	params[paramname] = payload[0]
+
 	#if get
 	if method == "GET":
-		getURL = parsedURL + "?" + paramname+"="+payload[0]
+		paramstr = "&".join("%s=%s" % (k,v) for k,v in params.items())
+		getURL = parsedURL + "?" + paramstr
 		content = requests.get(getURL)
-		html =  content.text
-
 	#if post
 	elif method == "POST":
-		content = requests.post(parsedURL, data={paramname:payload[0]})
-		html = content.text
-
-
+		content = requests.post(parsedURL, data=params)
+	
+	html = content.text
 	result = checkSuccess(html, payload[1], content, parsedURL, method, paramname, verbose)
 	
 	#if function returns:
 	if result is not None:
-		#print(url, payload)
+		print(url, payload)
 		return True
 	return None
 
@@ -156,8 +156,8 @@ if __name__ == "__main__":
 				"/serverside/eval2.php",
 				"/openredirect/openredirect.php"]
 	for payload in payloads:
-		injectPayload(url_list[0],  'GET','ascii', payload)
-		injectPayload(url_list[1], 'POST', "host", payload)
-		injectPayload(url_list[2],  "POST", "username", payload)
-		injectPayload(url_list[3],  "post", "page", payload)
-		injectPayload(url_list[4],  "GET", "redirect", payload)
+		injectPayload(url_list[0],  'GET','ascii', {"ascii":"cat","utf":"dog"},payload)
+		injectPayload(url_list[1], 'POST', "host", {"host":""},payload)
+		injectPayload(url_list[2],  "POST", "username", {"username":""}, payload)
+		injectPayload(url_list[3],  "post", "page", {"page":""}, payload)
+		injectPayload(url_list[4],  "GET", "redirect",{"redirect":""}, payload)

