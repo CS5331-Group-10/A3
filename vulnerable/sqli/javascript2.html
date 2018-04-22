@@ -1,0 +1,43 @@
+<html>
+
+<body>
+<h1>User Directory</h1>
+
+
+
+Search for user:
+    <input type="text" name="username" id="username"/>
+    <input type="submit" id="submit" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+$('#submit').on('click',function(){
+		
+	var usernameVar = document.getElementById("username").value;
+	var formData = {username: usernameVar};
+	alert($('#username').val());
+	$.ajax({
+		url:'http://target.com/sqli/sqli.php',
+		dataType: 'text',
+		type:'post',
+		contentType: 'application/x-www-form-urlencoded',
+		data: JSON.stringify({"username":$('#username').val()}),
+		processData: false,
+		success: function(data, textStatus, jQxhr){
+			alert(JSON.stringify(data));
+		},
+		error: function(jqXhr,textStatus, errorThrown){
+			alert("error"+jqXhr + textStatus + errorThrown);	
+		}
+	});
+
+	alert("ajax done");
+	
+});
+</script>
+
+
+
+</body>
+</html>
