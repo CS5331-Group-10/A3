@@ -103,7 +103,8 @@ if __name__ == "__main__":
 				"/commandinjection/commandinjection.php",
 				"/sqli/sqli.php",
 				"/serverside/eval2.php",
-				"/openredirect/openredirect.php"]
+				"/openredirect/openredirect.php",
+				"/serverside/serverside.php"]
 
 
 	for payload in payloads:
@@ -112,3 +113,4 @@ if __name__ == "__main__":
 		injectPayload(url_list[2],  "POST", "username", {"username":""}, payload)
 		injectPayload(url_list[3],  "GET", "page", {"page":""}, payload)
 		injectPayload(url_list[4],  "GET", "redirect",{"redirect":""}, payload)
+		injectPayload(url_list[5], "GET", "page", {"page":"apples"}, payload)

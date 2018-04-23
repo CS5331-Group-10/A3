@@ -3,6 +3,7 @@ import requests
 def lfi(depth = 3, filename="index"):
 	payloadList = list()
 	#finds index.php at base
+	## depthPayload += "..%2F"
 	payload = ""
 	
 	#LFI
