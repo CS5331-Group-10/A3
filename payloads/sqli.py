@@ -17,8 +17,8 @@ singel quote and double quote is not fixed yet.
 
 def get_false():
 	## the second is taken as ground truth to filter out real sql-injection page
-	# payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
-	payloads = [str(uuid.uuid4()), str(uuid.uuid4())]
+	payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
+	# payloads = [str(uuid.uuid4()), str(uuid.uuid4())]
 	return payloads
 
 def get_falsewy():
@@ -53,7 +53,17 @@ def check_success_zz(content,url,method,paramname,params,payload):
 	if 'sleep' in payload[0] and content.elapsed.total_seconds() > 5:
 		print("This page is highly suspecious to sql injection...")
 		return True
+	## if union work
+	if 'union' in payload[0] and content.status_code == 200:
+		match = re.findall(r'ubuntu', html)
+		if len(match) == 0:
+			return False
+		return True
 
+	## the simplest way: check <pre>
+	# match = re.findall(r'<pre>, html)
+	
+	## if the at least one filter work: '" or "1"="1', "' or '1'='1"
 	else:
 		## for real sql injection, the payloads should return the same result
 		## then compare the fake page with the true page to see the difference
