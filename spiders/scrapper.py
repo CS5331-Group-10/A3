@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 from scrapy.selector import Selector
 import re
+from scrapy_splash import SplashRequest
 # import scrapy
 # from urlparse import  parse
 
@@ -43,17 +44,24 @@ class ExampleSpider(CrawlSpider):
     start_urls = ['http://target.com/']
     custom_settings = {'REDRIRECT_ENABLED' : False }
     # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
+    def start_requests(self):
+        for url in self.start_urls:
+            # yield SplashRequest(url, args={'wait': 0.5})
+            yield SplashRequest(url, dont_process_response=True, args={'wait': 0.5})
 
-    rules = (Rule(LinkExtractor(), callback='parse_url', follow=True), )
 
+    rules = (Rule(LinkExtractor(),  callback='parse_url',process_request = 'start_requests' , follow=True), )
+    # rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
+
+
+    def splash_request(self, request):
+        yield SplashRequest(url=request.url, dont_process_response=True, args={'wait': 0.5}, meta={'real_url': request.url})
 
     def parse_url(self, response):
+
         selector = Selector(response)
         item = MyItem()
         value = ''
-        # item['originalResponse'] = response.url
-        # print "hahhaha"
-        # print response
         parsed = urlparse(response.url)
         endpoint_result = []
 
@@ -142,10 +150,6 @@ class ExampleSpider(CrawlSpider):
                         folder = endpoint.split('/')
                         folder = "/".join(folder[0:len(folder)-1])
                         actions = folder+"/"+actions
-					
-					# x = endpoint.split('/')
-                    #
-                    # url = "/".join(x[0: len(x)-1])
                     item['endpoint'] = actions
                 else:
                     pass
@@ -331,6 +335,32 @@ class ExampleSpider(CrawlSpider):
         yield{
             "endpoints": list_form
         }
+        # yield SplashRequest(
+        #     'http://target.com/',
+        #     endpoint='sqli/javascript.html',
+        #     # args={'js_source': 'document.title="My Title";'},
+        # )
+##################SCRAPY SPLASH ##################################
+        # yield SplashRequest(url, self.parse_result,
+        #     args={
+        #         # optional; parameters passed to Splash HTTP API
+        #         'wait': 0.5,
+        #
+        #         # 'url' is prefilled from request url
+        #         # 'http_method' is set to 'POST' for POST requests
+        #         # 'body' is set to request body for POST requests
+        #     },
+        #     endpoint='javascript.html', # optional; default is render.html
+        #     # splash_url='<url>',     # optional; overrides SPLASH_URL
+        #     slot_policy=scrapy_splash.SlotPolicy.PER_DOMAIN,  # optional
+        # )
+
+
+
+
+
+
+
 
         # yield {
         #     "endpoint_result" : endpoint_result
