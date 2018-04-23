@@ -1,3 +1,4 @@
+import requests
 import difflib
 import uuid
 
@@ -22,6 +23,72 @@ def get_false():
 
 def get_falsewy():
 	return str(uuid.uuid4())
+
+def checkSuccesswy(content,url,method,paramname,params,payload):
+	params[paramname] = get_falsewy()
+	html = content.text
+
+	if len(content.history) !=0 :
+		return False
+   	#if get
+	if method == "GET":
+		paramstr = "&".join("%s=%s" % (k,v) for k,v in params.items())
+		getURL = url + "?" + paramstr
+		falseContent = requests.get(getURL)
+#if post
+	elif method == "POST":
+		falseContent = requests.post(url, data=params)
+
+	falsehtml = falseContent.text
+	falsehtml = falsehtml.replace(params[paramname],"")
+	html = html.replace(payload[0],"")
+	
+	if falsehtml == html or len(falseContent.history)!=0 or abs(len(html)-len(falsehtml)) < 30:
+		return False
+	return True
+
+
+def check_success_zz(content,method,paramname):
+	## for real sql injection, the payloads should return the same result
+## then compare the fake page with the true page to see the difference
+	falsePayloads = get_false()
+#if get
+	html = content.html
+	badhtml = []
+	for falsePayload in falsePayloads:
+		if method == "GET":
+			getURL = url + "?" + paramname+"="+falsePayload
+			false_page = requests.get(getURL)
+			if(false_page.status_code==200):
+				badhtml.append(false_page.text)
+			else:
+				badhtml.append(requests.get(url).text)
+#if post
+		elif method == "POST":
+			false_page = requests.post(url, data={paramname:falsePayload})
+			if(false_page.status_code==200):
+				badhtml.append(false_page.text)
+				# print(html)
+		else:
+			badhtml.append(requests.get(url).text)
+
+	if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
+	## true filter should be two
+		compare_res = compare_html(badhtml[2], html)  
+		match = re.findall(r'<ins>.+', compare_res)
+	elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
+		compare_res = compare_html(badhtml[1], html)  
+		match = re.findall(r'<ins>.+', compare_res)
+	else:
+		match = ""
+	if(content.status_code==200) and badhtml[1]==html:
+		compare_res = compare_html(badhtml[0], html)  
+		match = re.findall(r'<ins>.+', compare_res)
+	else:
+		match = ""
+	if len(match) ==0 :
+		return False
+	return True
 
 
 def get_all():

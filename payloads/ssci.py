@@ -1,5 +1,4 @@
-import urllib
-
+import requests
 
 def lfi(depth = 3, filename="index"):
 	payloadList = list()
@@ -43,6 +42,18 @@ def get_all(depth = 5, filename="index"):
 	all_list = [(item, "Server Side Code Injection") for item in all_list]
 	return all_list
 
+def checkSuccess(BASE_URL, content):
+	if len(content.history)!=0:
+		return False;
+	html = content.text
+	indexPHP = requests.get(BASE_URL + "/index.php") 
+	if indexPHP.text in html: 	
+		return True 
+	#uname -a successful: 
+	if "GNU/Linux" in html: 
+		return True 
+
+	return False;
 
 if __name__ == "__main__":	
 	url = "/serverside/lfi2.php"

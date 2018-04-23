@@ -7,6 +7,11 @@ def get_all():
 	all_list = [(item, "Open Redirect") for item in all_list]
 	return all_list
 
+def checkSuccess(content):
+	if len(content.history) > 0 and content.url == "https://status.github.com/messages":
+		return True
+	return False
+
 
 if __name__ == "__main__":	
 	print	get_all()
