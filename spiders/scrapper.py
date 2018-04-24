@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 from scrapy.selector import Selector
 import re
-from scrapy_splash import SplashRequest
+
 
 
 import os
