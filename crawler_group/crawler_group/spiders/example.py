@@ -24,8 +24,8 @@ class MyItem(Item):
 
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    start_urls = ['http://target.com/']
-    allowed_domains = ['target.com']
+    start_urls = ['http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080/']
+
 
 ##### Set scrapy rules to extract link ==> after which parse_url function will be run ####
     rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
@@ -50,11 +50,13 @@ class ExampleSpider(CrawlSpider):
         if all_links:
             list_form = []
 
-            for href in all_links:
+            for a in all_links:
+
                 item = MyItem()
                 ### For those pages with href, we do a request again to hit the url
-                request =  response.follow(url=href, callback=self.parse_url)
-                get_request_url  = request.url
+                # request =  response.follow(url=href, callback=self.parse_url)
+                get_request_url  = response.url +a
+                
                 ### Parsing of url query parameters to get the keys and values ####
                 query_get_url = urlparse(get_request_url).query
                 get_params_for_get_url = parse_qs(query_get_url).keys()
