@@ -75,7 +75,7 @@ def check_success_zz(content,url,method,paramname,params,payload):
 		badhtml = content.text
 
 	compare_res = compare_html(badhtml, html)		
-	match = re.findall(r'No', html)
+	match = re.findall(r'no.*found', html)
 	if len(match) != 0:
 		return False
 	return True
