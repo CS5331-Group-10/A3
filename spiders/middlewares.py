@@ -101,3 +101,25 @@ class TutorialDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class SeleniumMiddleware(object):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        middleware = cls()
+        crawler.signals.connect(middleware.spider_opened, signals.spider_opened)
+        crawler.signals.connect(middleware.spider_closed, signals.spider_closed)
+        return middleware
+
+    def process_request(self, request, spider):
+        request.meta['driver'] = self.driver  # to access driver from response
+        self.driver.get(request.url)
+        body = to_bytes(self.driver.page_source)  # body must be of type bytes
+        return HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
+
+    def spider_opened(self, spider):
+        self.driver = webdriver.Firefox()
+
+    def spider_closed(self, spider):
+        self.driver.close()
