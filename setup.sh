@@ -6,5 +6,6 @@ sudo apt-get install python-pip python-dev build-essential
 sudo pip install --upgrade pip
 sudo pip install requests
 sudo apt install python-scrapy
+sudo pip install -U scrapy
 
-# echo "cs5331 Y Y Y Y Y" | ./setup.sh
+# echo "cs5331 Y Y Y Y Y Y" | ./setup.sh
