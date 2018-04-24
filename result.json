@@ -1,15 +1,15 @@
 [
-{"endpoints": [{"endpoint": "/openredirect/openredirect.php", "method": "GET", "value": [["success.html"]], "param": ["redirect"]}]},
-{"endpoints": [{"endpoint": "/sqli/sqli.php", "method": "POST", "value": [""], "param": ["username"]}]},
-{"endpoints": [{"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["angry.ascii"]], "param": ["ascii"]}, {"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["fence.ascii"]], "param": ["ascii"]}, {"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["stretch.ascii"]], "param": ["ascii"]}]},
-{"endpoints": [{"endpoint": "/csrf/csrflogin.php", "method": "POST", "value": ["SECRET"], "param": ["secret"]}]},
-{"endpoints": [{"endpoint": "/csrf/csrf.php", "method": "POST", "value": ["SECRET", "abcdef1235"], "param": ["secret", "csrftoken_hiddenPEST"]}]},
-{"endpoints": [{"endpoint": "/commandinjection/commandinjection.php", "method": "POST", "value": ["google.com"], "param": ["host"]}]},
-{"endpoints": [{"endpoint": "/sqli/doublesqliaction.php", "method": "POST", "value": [""], "param": ["username"]}]},
+{"endpoints": [{"endpoint": "/serverside/lfi1.php", "method": "GET", "value": [["apples"]], "param": ["page"]}]},
+{"endpoints": [{"endpoint": "/serverside/eval2.php", "method": "post", "value": [""], "param": ["page"]}, {"endpoint": "/serverside/eval2.php", "method": "get", "value": [""], "param": ["page"]}]},
 {"endpoints": [{"endpoint": "/serverside/eval.php", "method": "GET", "value": [""], "param": ["page"]}]},
-{"endpoints": [{"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["apples.php"]], "param": ["page"]}, {"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["oranges.php"]], "param": ["page"]}, {"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["bananas.php"]], "param": ["page"]}]},
+{"endpoints": [{"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["apples"]], "param": ["page"]}, {"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["oranges"]], "param": ["page"]}, {"endpoint": "/serverside/rfi.php", "method": "GET", "value": [["bananas"]], "param": ["page"]}]},
 {"endpoints": [{"endpoint": "/serverside/lfi2.php", "method": "GET", "value": [["apples"]], "param": ["page"]}, {"endpoint": "/serverside/lfi2.php", "method": "GET", "value": [["oranges"]], "param": ["page"]}, {"endpoint": "/serverside/lfi2.php", "method": "GET", "value": [["bananas"]], "param": ["page"]}]},
 {"endpoints": [{"endpoint": "/serverside/lfi1.php", "method": "GET", "value": [["apples"]], "param": ["page"]}, {"endpoint": "/serverside/lfi1.php", "method": "GET", "value": [["oranges"]], "param": ["page"]}, {"endpoint": "/serverside/lfi1.php", "method": "GET", "value": [["bananas"]], "param": ["page"]}]},
-{"endpoints": [{"endpoint": "/serverside/lfi1.php", "method": "GET", "value": [["apples"]], "param": ["page"]}]},
-{"endpoints": [{"endpoint": "/serverside/eval2.php", "method": "post", "value": [""], "param": ["page"]}, {"endpoint": "/serverside/eval2.php", "method": "get", "value": [""], "param": ["page"]}]}
+{"endpoints": [{"endpoint": "/sqli/doublesqliaction.php", "method": "POST", "value": [""], "param": ["username"]}]},
+{"endpoints": [{"endpoint": "/sqli/sqli.php", "method": "POST", "value": [""], "param": ["username"]}]},
+{"endpoints": [{"endpoint": "/csrf/csrflogin.php", "method": "POST", "value": ["SECRET"], "param": ["secret"]}]},
+{"endpoints": [{"endpoint": "/commandinjection/commandinjection.php", "method": "POST", "value": ["google.com"], "param": ["host"]}]},
+{"endpoints": [{"endpoint": "/csrf/csrf.php", "method": "POST", "value": ["SECRET", "abcdef1235"], "param": ["secret", "csrftoken_hiddenPEST"]}]},
+{"endpoints": [{"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["angry.ascii"]], "param": ["ascii"]}, {"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["fence.ascii"]], "param": ["ascii"]}, {"endpoint": "/directorytraversal/directorytraversal.php", "method": "GET", "value": [["stretch.ascii"]], "param": ["ascii"]}]},
+{"endpoints": [{"endpoint": "/openredirect/openredirect.php", "method": "GET", "value": [["success.html"]], "param": ["redirect"]}]}
 ]

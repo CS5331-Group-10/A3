@@ -50,21 +50,23 @@ ROBOTSTXT_OBEY = True
 #    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
 #}
 
-SPIDER_MIDDLEWARES = {
-    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
-}
-SPLASH_URL = 'http://192.168.59.103:8050'
+# SPIDER_MIDDLEWARES = {
+#     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+# }
+# SPLASH_URL = 'http://192.168.59.103:8050'
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy_splash.SplashCookiesMiddleware': 723,
-    'scrapy_splash.SplashMiddleware': 725,
-    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-     # 'tutorial.middlewares.TutorialDownloaderMiddleware': 543,
-}
-
-DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+# DOWNLOADER_MIDDLEWARES = {
+#     # 'scrapy_splash.SplashCookiesMiddleware': 723,
+#     # 'scrapy_splash.SplashMiddleware': 725,
+#     # 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+#     'tutorial.middlewares.SeleniumMiddleware': 999,
+#     'tutorial.middlewares.TutorialDownloaderMiddleware': 543
+# }
+SPIDER_MIDDLEWARES = 'tutorial.middlewares.SeleniumMiddleware'
+DOWNLOADER_MIDDLEWARES = {'tutorial.middlewares.TutorialSpiderMiddleware' :1000}
+# DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

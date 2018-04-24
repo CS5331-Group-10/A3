@@ -25,15 +25,19 @@ class MyItem(Item):
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
     start_urls = ['http://target.com/']
+    allowed_domains = ['target.com']
+
 ##### Set scrapy rules to extract link ==> after which parse_url function will be run ####
     rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
 
     def parse_url(self, response):
-
+        print self.settings.getlist('DOWNLOADER_MIDDLEWARES')
+        print "Wwwwwwwwwwwwwwwwwwwwwwwwwwww"
         selector = Selector(response)
         item = MyItem()
         value = ''
         parsed = urlparse(response.url)
+        print parsed.path
         endpoint_result = []
         #### Identify presence of cookies #####
         cookies = response.headers.getlist('Set-Cookie')
@@ -141,6 +145,6 @@ class ExampleSpider(CrawlSpider):
             return
 
 
-        yield{
-            "endpoints": list_form
-        }
+        # yield{
+        #     "endpoints": list_form
+        # }

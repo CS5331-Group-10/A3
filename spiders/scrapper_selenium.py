@@ -11,6 +11,7 @@ from scrapy.selector import Selector
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 # import scrapy
 # from urlparse import  parse
 
@@ -31,133 +32,67 @@ class ExampleSpider(CrawlSpider):
     # start_urls = ['http://target.com/']
     # start_urls = ['http://target.com/sqli/javascript.html']
     custom_settings = {'REDRIRECT_ENABLED' : False }
-    # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
+
 
 
 ##########SELENIUM ##########
+    #http://target.com/sqli/javascript2.html
+    #http://target.com/sqli/javascript3.html
+    #http://target.com/sqli/dynamic.php
+    options = Options()
+    options.add_argument("--headless")
+    browser = webdriver.Firefox(firefox_options=options, executable_path='./geckodriver')
+    url = 'http://target.com/serverside/rfi.php'
+    browser.get(url)
+
+    all_links = browser.find_elements_by_xpath('*//a')
+    print all_links
+    if all_links:
+        list_form = []
+
+        for href in all_links:
+            item = MyItem()
+            ### For those pages with href, we do a request again to hit the url
+            request =  response.follow(url=href, callback=self.parse_url)
+            get_request_url  = request.url
+            ### Parsing of url query parameters to get the keys and values ####
+            query_get_url = urlparse(get_request_url).query
+            get_params_for_get_url = parse_qs(query_get_url).keys()
+            get_values_for_get_url = parse_qs(query_get_url).values()
 
 
-    browser = webdriver.Firefox(executable_path='./geckodriver')
-    browser.get('http://target.com/sqli/javascript.html')
-    form_val = browser.find_element_by_id('username')
-    submit_query_btn = browser.find_element_by_id('submit')
+            if (get_params_for_get_url):
 
-    form_val.send_keys("hahhaa")
-    submit_query_btn.click()
-    browser.close()
+                endpoint = urlparse(get_request_url).path
 
-##########SELENIUM ##########
-
-    # rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
-
-    def parse_url(self, response):
-
-        selector = Selector(response)
-        item = MyItem()
-        value = ''
-        parsed = urlparse(response.url)
-        endpoint_result = []
-
-        cookies = response.headers.getlist('Set-Cookie')
-        if cookies:
-            item['method'] = 'Cookie'
-        else:
-            pass
-
-        ### ALL THE GET URL #####
-        all_links = response.xpath('*//a/@href').extract()
-
-        if all_links:
-            list_form = []
-
-            for href in all_links:
-                item = MyItem()
-                request =  response.follow(url=href, callback=self.parse_url)
-
-
-
-                get_request_url  = request.url
-                query_get_url = urlparse(get_request_url).query
-                get_params_for_get_url = parse_qs(query_get_url).keys()
-                get_values_for_get_url = parse_qs(query_get_url).values()
-
-
-                if (get_params_for_get_url):
-
-                    endpoint = urlparse(get_request_url).path
-
-                    param = get_params_for_get_url
-                    method = "GET"
-                    item['endpoint'] = endpoint
-                    item['param'] = param
-                    item['method'] = method
-                    item['value'] = get_values_for_get_url
-                    list_form.append(item)
-
-                else:
-                    return
-
-        elif(response.css('form')):
-            endpoint =parsed.path
-            item['endpoint'] = endpoint
-            param = ['']
-            method = ['']
-            value = ['']
-            list_form =[]
-
-            for form in (response.xpath('//form')):
-                item = MyItem()
-                endpoint =parsed.path
+                param = get_params_for_get_url
+                method = "GET"
                 item['endpoint'] = endpoint
-                if (form.xpath('.//@method')):
-                    method = form.xpath('.//@method')[0].extract()
-                    item['method'] = method
-                else:
-                    item['method'] = 'GET'
-
-                if (form.xpath('.//@action')):
-                    actions = form.xpath('.//@action')[0].extract()
-                    if (actions[0:5] != "https" and actions[0:5] != "http:"):
-                        folder = endpoint.split('/')
-                        folder = "/".join(folder[0:len(folder)-1])
-                        actions = folder+"/"+actions
-                    item['endpoint'] = actions
-                else:
-                    pass
-
-                if(form.xpath('.//input')):
-                    form_params = []
-                    form_values = []
-                    for form_inputs in form.xpath('.//input'):
-
-                        if (form_inputs.xpath('.//@type').extract() ==[u'hidden']):
-
-                            form_name = form_inputs.xpath('.//@name').extract()
-
-                            form_name = form_name[0] + "_hiddenPEST"
-                            form_value = form_inputs.xpath('.//@value').extract()
-                            form_value = form_value[0]
-                            form_params.append(form_name)
-                            form_values.append(form_value)
-                        elif (form_inputs.xpath('.//@type').extract() ==[u'text']):
-                            form_name = form_inputs.xpath('.//@name').extract()[0] if form_inputs.xpath('.//@name').extract() else ''
-                            form_value = form_inputs.xpath('.//@value').extract()[0] if form_inputs.xpath('.//@value').extract() else ''
-                            form_params.append(form_name)
-                            form_values.append(form_value)
-                        else:
-                            pass
-
-                    item['param'] = form_params
-                    item['value'] = form_values
-
-
-
+                item['param'] = param
+                item['method'] = method
+                item['value'] = get_values_for_get_url
                 list_form.append(item)
 
-        else:
-            return
+            else:
+                pass
 
+    # value= browser.find_elements_by_xpath('//form//input')
+    # print value
+    # for input in value:
+    #     #print attribute name of each input element
+    #     print input.get_attribute('name')
+    # print value
+    # browser.close()
+    # browser = webdriver.Firefox(executable_path='./geckodriver')
+    # value = browser.get('http://target.com/sqli/dynamic.php')
+    # result = parse_url(self, value)
+    # print result
+    # print "hahahhahahahh"
+    # form_val = browser.find_element_by_id('username')
+    # submit_query_btn = browser.find_element_by_id('submit')
+    #
+    # form_val.send_keys("hahhaa")
+    # submit_query_btn.click()
+    # browser.close()
 
-        yield{
-            "endpoints": list_form
-        }
+##########SELENIUM ##########
