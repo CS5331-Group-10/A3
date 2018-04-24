@@ -8,6 +8,7 @@ def get_all():
 	return all_list
 
 def checkSuccess(content):
+	# print(len(content.history), content.url)
 	if len(content.history) > 0 and content.url == "https://status.github.com/messages":
 		return True
 	return False

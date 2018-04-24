@@ -66,7 +66,7 @@ def check_success_zz(content,url,method,paramname,params,payload):
 	falsePayload = get_false()
 		#if get
 	if method == "GET":
-		getURL = url + "?" + paramname+"="+falsePayload
+		getURL = url + "?" + paramname+"="+str(falsePayload)
 		content = requests.get(getURL)
 		badhtml =  content.text
 	#if post
@@ -74,7 +74,7 @@ def check_success_zz(content,url,method,paramname,params,payload):
 		content = requests.post(url, data={paramname:falsePayload})
 		badhtml = content.text
 
-	compare_res = compare_html(badhtml, html)		
+	# compare_res = compare_html(badhtml, html)		
 	match = re.findall(r'no.*found', html)
 	if len(match) != 0:
 		return False
