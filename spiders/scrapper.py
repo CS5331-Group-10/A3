@@ -22,7 +22,21 @@ class MyItem(Item):
     value = Field()
     endpoint = Field()
     endpoints = Field()
-
+    # url= Field()
+    # get_params = Field()
+    # post_params = Field()
+    # headers = Field()
+    # resquest = Field()
+    # cookies = Field()
+    # meta = Field()
+    # raw_html = Field()
+    # input_post_params = Field()
+    # html_url = Field()
+    # get_post = Field()
+    # action_url = Field()
+    # forms = Field()
+    # get_url = Field()
+    # endpoint_result = Field()
 
 
 class ExampleSpider(CrawlSpider):
@@ -31,7 +45,7 @@ class ExampleSpider(CrawlSpider):
     custom_settings = {'REDRIRECT_ENABLED' : False }
     # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
 
-    rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
+    # rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
 
     def parse_url(self, response):
 
@@ -49,7 +63,7 @@ class ExampleSpider(CrawlSpider):
 
         ### ALL THE GET URL #####
         all_links = response.xpath('*//a/@href').extract()
-
+        # print all_links
         if all_links:
             list_form = []
 
@@ -79,6 +93,8 @@ class ExampleSpider(CrawlSpider):
 
                 else:
                     return
+
+
 
         elif(response.css('form')):
             endpoint =parsed.path

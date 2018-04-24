@@ -9,7 +9,8 @@ from bs4 import BeautifulSoup
 import requests
 from scrapy.selector import Selector
 import re
-from scrapy_splash import SplashRequest
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 # import scrapy
 # from urlparse import  parse
 
@@ -27,11 +28,27 @@ class MyItem(Item):
 
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    start_urls = ['http://target.com/']
+    # start_urls = ['http://target.com/']
+    # start_urls = ['http://target.com/sqli/javascript.html']
     custom_settings = {'REDRIRECT_ENABLED' : False }
     # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
 
-    rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
+
+##########SELENIUM ##########
+
+
+    browser = webdriver.Firefox(executable_path='./geckodriver')
+    browser.get('http://target.com/sqli/javascript.html')
+    form_val = browser.find_element_by_id('username')
+    submit_query_btn = browser.find_element_by_id('submit')
+
+    form_val.send_keys("hahhaa")
+    submit_query_btn.click()
+    browser.close()
+
+##########SELENIUM ##########
+
+    # rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
 
     def parse_url(self, response):
 
