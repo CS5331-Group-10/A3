@@ -24,7 +24,7 @@ class MyItem(Item):
     endpoints = Field()
 
 class ExampleSpider(CrawlSpider):
-    name = 'crawler_assignment'
+    name = 'crawler_assignment_3'
     # start_urls = ['http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080/']
     browser = webdriver.Firefox(executable_path='./geckodriver')
     browser.get('http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8081/')
@@ -47,9 +47,22 @@ class ExampleSpider(CrawlSpider):
     # })
     current_url_to_continue =  browser.current_url
     print current_url_to_continue
-    # links = browser.find_elements_by_xpath('//a')
-    links = browser.find_element_by_css_selector('a').get_attribute('href')
-    print links
+    links = browser.find_elements_by_xpath("//a[@href]")
+    for elem in links:
+        print elem.get_attribute("href")
+        # browser.get(elem.get_attribute("href"))
+        # inner_link = browser.find_elements_by_xpath("//a[@href]")
+        # for inner in inner_link:
+        #     print inner.get_attribute("href")
+    # print links
+    # for link in links:
+    #     print link.text
+        # links.click()
+        # other_urls = browser.current_url
+        # print other_urls
+    # links = browser.find_elements_by_css_selector('a')
+    # print links
+    browser.close()
     # for link_url in links:
 
     # start_urls = ['http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8081/secretclub.php']
