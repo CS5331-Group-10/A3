@@ -10,8 +10,7 @@ import requests
 from scrapy.selector import Selector
 import re
 from scrapy_splash import SplashRequest
-# import scrapy
-# from urlparse import  parse
+
 
 import os
 
@@ -22,30 +21,12 @@ class MyItem(Item):
     value = Field()
     endpoint = Field()
     endpoints = Field()
-    # url= Field()
-    # get_params = Field()
-    # post_params = Field()
-    # headers = Field()
-    # resquest = Field()
-    # cookies = Field()
-    # meta = Field()
-    # raw_html = Field()
-    # input_post_params = Field()
-    # html_url = Field()
-    # get_post = Field()
-    # action_url = Field()
-    # forms = Field()
-    # get_url = Field()
-    # endpoint_result = Field()
-
 
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
     start_urls = ['http://target.com/']
-    custom_settings = {'REDRIRECT_ENABLED' : False }
-    # start_urls = ['file:///home/cs5331/Desktop/A3/tutorial/tutorial/spiders/sample.html']
-
-    # rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
+##### Set scrapy rules to extract link ==> after which parse_url function will be run ####
+    rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
 
     def parse_url(self, response):
 
@@ -54,25 +35,22 @@ class ExampleSpider(CrawlSpider):
         value = ''
         parsed = urlparse(response.url)
         endpoint_result = []
-
+        #### Identify presence of cookies #####
         cookies = response.headers.getlist('Set-Cookie')
         if cookies:
             item['method'] = 'Cookie'
         else:
             pass
 
-        ### ALL THE GET URL #####
+        ##### Within each page, identify if there is presence of any href ####
         all_links = response.xpath('*//a/@href').extract()
-        # print all_links
+
         if all_links:
             list_form = []
 
             for href in all_links:
                 item = MyItem()
                 request =  response.follow(url=href, callback=self.parse_url)
-
-
-
                 get_request_url  = request.url
                 query_get_url = urlparse(get_request_url).query
                 get_params_for_get_url = parse_qs(query_get_url).keys()
@@ -95,7 +73,7 @@ class ExampleSpider(CrawlSpider):
                     return
 
 
-
+            #### Identify presence of Form ==> not just limited to POST but also GET method ####
         elif(response.css('form')):
             endpoint =parsed.path
             item['endpoint'] = endpoint
@@ -108,29 +86,33 @@ class ExampleSpider(CrawlSpider):
                 item = MyItem()
                 endpoint =parsed.path
                 item['endpoint'] = endpoint
+                ### Extract method from form ###
                 if (form.xpath('.//@method')):
                     method = form.xpath('.//@method')[0].extract()
                     item['method'] = method
                 else:
                     item['method'] = 'GET'
-
+                ### Extract action from form ###
                 if (form.xpath('.//@action')):
                     actions = form.xpath('.//@action')[0].extract()
+                    ### Special handling of action attribute to include folder directory ###
                     if (actions[0:5] != "https" and actions[0:5] != "http:"):
                         folder = endpoint.split('/')
                         folder = "/".join(folder[0:len(folder)-1])
                         actions = folder+"/"+actions
+                    ### If actions present, endpoint will be set to where the form action points to ###
                     item['endpoint'] = actions
                 else:
                     pass
-
+                ### Extract input from form useful for exploits ####
                 if(form.xpath('.//input')):
                     form_params = []
                     form_values = []
                     for form_inputs in form.xpath('.//input'):
-
+                        ### Extract hidden inputs in the form ####
                         if (form_inputs.xpath('.//@type').extract() ==[u'hidden']):
-
+                            ### Name attribute and Value attribute from the inputs attribute of the form
+                            ### are useful for attacks ####
                             form_name = form_inputs.xpath('.//@name').extract()
 
                             form_name = form_name[0] + "_hiddenPEST"

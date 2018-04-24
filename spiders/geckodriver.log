@@ -147,3 +147,9 @@ JavaScript error: resource://gre/modules/osfile/osfile_async_front.jsm, line 411
 1524537604602	Marionette	INFO	Listening on port 38907
 1524537604806	Marionette	WARN	TLS certificate errors will be ignored for this session
 [Child 27078, Chrome_ChildThread] WARNING: pipe error (3): Connection reset by peer: file /build/firefox-BgGWsI/firefox-59.0.2+build1/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+1524538359072	geckodriver	INFO	geckodriver 0.18.0
+1524538359077	geckodriver	INFO	Listening on 127.0.0.1:40859
+1524538360240	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args ["-marionette"]
+1524538360862	Marionette	INFO	Enabled via --marionette
+1524538362612	Marionette	INFO	Listening on port 40333
+1524538362702	Marionette	WARN	TLS certificate errors will be ignored for this session
