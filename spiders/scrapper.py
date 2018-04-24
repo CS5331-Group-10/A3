@@ -50,8 +50,10 @@ class ExampleSpider(CrawlSpider):
 
             for href in all_links:
                 item = MyItem()
+                ### For those pages with href, we do a request again to hit the url
                 request =  response.follow(url=href, callback=self.parse_url)
                 get_request_url  = request.url
+                ### Parsing of url query parameters to get the keys and values ####
                 query_get_url = urlparse(get_request_url).query
                 get_params_for_get_url = parse_qs(query_get_url).keys()
                 get_values_for_get_url = parse_qs(query_get_url).values()
