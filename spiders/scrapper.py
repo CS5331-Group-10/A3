@@ -24,49 +24,42 @@ class MyItem(Item):
 
 class ExampleSpider(CrawlSpider):
     name = 'crawler_assignment'
-    start_urls = ['http://target.com/']
-    allowed_domains = ['target.com']
+    start_urls = ['http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080']
+#    allowed_domains = ['http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080']
 
 ##### Set scrapy rules to extract link ==> after which parse_url function will be run ####
     rules = (Rule(LinkExtractor(),callback='parse_url', follow=True), )
 
     def parse_url(self, response):
-        print self.settings.getlist('DOWNLOADER_MIDDLEWARES')
-        print "Wwwwwwwwwwwwwwwwwwwwwwwwwwww"
         selector = Selector(response)
         item = MyItem()
         value = ''
         parsed = urlparse(response.url)
-        print parsed.path
-        endpoint_result = []
+	endpoint_result = []
         #### Identify presence of cookies #####
         cookies = response.headers.getlist('Set-Cookie')
         if cookies:
             item['method'] = 'Cookie'
         else:
             pass
-
         ##### Within each page, identify if there is presence of any href ####
         all_links = response.xpath('*//a/@href').extract()
-
         if all_links:
-            list_form = []
-
-            for href in all_links:
-                item = MyItem()
+            list_form=[]
+		
+            for a in all_links:
+		item = MyItem()
                 ### For those pages with href, we do a request again to hit the url
-                request =  response.follow(url=href, callback=self.parse_url)
-                get_request_url  = request.url
+                #request =  response.follow(url=a, callback=self.parse_url)
                 ### Parsing of url query parameters to get the keys and values ####
-                query_get_url = urlparse(get_request_url).query
+		get_request_url = response.url+ a
+		query_get_url = urlparse(get_request_url).query
                 get_params_for_get_url = parse_qs(query_get_url).keys()
                 get_values_for_get_url = parse_qs(query_get_url).values()
-
-
+		# print get_params_for_get_url
                 if (get_params_for_get_url):
 
-                    endpoint = urlparse(get_request_url).path
-
+                    endpoint = urlparse(get_request_url).path	
                     param = get_params_for_get_url
                     method = "GET"
                     item['endpoint'] = endpoint
@@ -74,7 +67,6 @@ class ExampleSpider(CrawlSpider):
                     item['method'] = method
                     item['value'] = get_values_for_get_url
                     list_form.append(item)
-
                 else:
                     return
 
@@ -145,6 +137,6 @@ class ExampleSpider(CrawlSpider):
             return
 
 
-        # yield{
-        #     "endpoints": list_form
-        # }
+        yield{
+             "endpoints": list_form
+        }

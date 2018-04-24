@@ -1,7 +1,7 @@
 import requests
 import difflib
 import uuid
-
+import re
 """
 Solutions:
 1. compare pages only  
@@ -42,7 +42,8 @@ def checkSuccesswy(content,url,method,paramname,params,payload):
 	falsehtml = falseContent.text
 	falsehtml = falsehtml.replace(params[paramname],"")
 	html = html.replace(payload[0],"")
-	
+
+	print falsehtml	
 	if falsehtml == html or len(falseContent.history)!=0 or abs(len(html)-len(falsehtml)) < 30:
 		return False
 	return True
@@ -69,7 +70,7 @@ def check_success_zz(content,url,method,paramname,params,payload):
 		## then compare the fake page with the true page to see the difference
 		## need to check false positive page 
 		falsePayloads = get_false()
-		html = content.html
+		html = content.text
 		badhtml = []
 		for falsePayload in falsePayloads:
 			if method == "GET":

